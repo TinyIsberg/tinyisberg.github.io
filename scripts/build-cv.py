@@ -49,63 +49,73 @@ def section(value, x, top, available):
     text(value, x, top - 10, 9, "CVBold", accent)
     c.setStrokeColor(colors.HexColor(line))
     c.setLineWidth(0.6)
-    c.line(x, top - 19, x + available, top - 19)
-    return top - 30
+    c.line(x, top - 17, x + available, top - 17)
+    return top - 23
 
 
 def item(title, period, description, x, top, available):
     top = paragraph(title, x, top, available, "item", 2)
     top = paragraph(period, x, top, available, "small", 4)
-    return paragraph(description, x, top, available, gap=11)
+    return paragraph(description, x, top, available, gap=6)
 
 
 # A quiet portrait header shares the portfolio's violet palette.
 c.setFillColor(colors.HexColor("#F7F6FB"))
-c.rect(0, 652, width, height - 652, fill=1, stroke=0)
+c.rect(0, 672, width, height - 672, fill=1, stroke=0)
 c.saveState()
 clip = c.beginPath()
-clip.roundRect(38, 683, 83, 114, 9)
+clip.roundRect(38, 703, 83, 114, 9)
 c.clipPath(clip, stroke=0, fill=0)
-c.drawImage(str(root / "dist/assets/filip-isberg.jpg"), 38, 683, 83, 114,
+c.drawImage(str(root / "dist/assets/filip-isberg.jpg"), 38, 703, 83, 114,
             preserveAspectRatio=True, anchor="c", mask="auto")
 c.restoreState()
-text("Filip Isberg", 142, 779, 32, "CVBold")
-text("Mjukvarutestare under utbildning", 143, 754, 13, color=accent)
-text("Manuell testning  /  Testautomation  /  Tillgänglighet", 143, 731, 9.3, color=muted)
-text("IT-Högskolan, Göteborg - Examen januari 2027", 143, 710, 9.3, color=muted)
+text("Filip Isberg", 142, 799, 32, "CVBold")
+text("Mjukvarutestare", 143, 774, 13, color=accent)
+text("Tillgänglig från 1 februari 2027", 143, 751, 9.3, color=ink)
+text("IT-Högskolan, Göteborg - Examen 29 januari 2027", 143, 730, 9.3, color=muted)
 paragraph('<link href="mailto:isberget23@gmail.com" color="' + accent + '">isberget23@gmail.com</link>'
           ' &nbsp; | &nbsp; <link href="tel:+46793571858" color="' + accent + '">079-357 18 58</link>',
-          143, 694, 414, "small")
-paragraph('Göteborgsregionen &nbsp; | &nbsp; <link href="https://www.linkedin.com/in/filip-isberg-b20226267/" color="' + accent + '">LinkedIn: Filip Isberg</link>',
-          143, 676, 414, "small")
+          143, 714, 414, "small")
+paragraph('Göteborgsregionen &nbsp; | &nbsp; <link href="https://www.linkedin.com/in/filip-isberg-b20226267/" color="' + accent + '">LinkedIn</link>'
+          ' &nbsp; | &nbsp; <link href="https://tinyisberg.github.io/" color="' + accent + '">tinyisberg.github.io</link>',
+          143, 696, 414, "small")
 c.setStrokeColor(colors.HexColor(accent))
 c.setLineWidth(1.5)
-c.line(38, 651, width - 38, 651)
+c.line(38, 671, width - 38, 671)
 
 intro_bottom = paragraph(
-    "Jag läser till mjukvarutestare på IT-Högskolan i Göteborg och gör min LIA hos Sportson. "
+    "Jag utbildar mig till mjukvarutestare på IT-Högskolan i Göteborg och gör min praktik på Sportson. "
     "Där tar jag fram acceptanstester, automatiserar testfall och testar tillgänglighet.",
-    38, 630, width - 76, "intro", 19)
+    38, 650, width - 76, "intro", 6)
+intro_bottom = paragraph(
+    "Tidigare arbetade jag som kock, där jag bland annat var teamledare och lärde upp nya kollegor. "
+    "Det har lärt mig vikten av samarbete och tydlig kommunikation. "
+    "Jag bytte bana eftersom jag ville arbeta mer med problemlösning.",
+    38, intro_bottom, width - 76, "intro", 13)
 
-main_x, main_w, side_x, side_w = 38, 310, 389, 145
+main_x, main_w, side_x, side_w = 38, 334, 398, 159
 body_top = intro_bottom
 c.setFillColor(colors.HexColor(soft))
 c.roundRect(side_x - 16, 52, side_w + 31, body_top - 48, 9, fill=1, stroke=0)
 
 y = section("ERFARENHET AV TESTNING", main_x, body_top, main_w)
 y = item("Testare (LIA) - Sportson", "14 september 2026 - 29 januari 2027",
-         "<b>Manuell testning:</b> Tar fram acceptanstester från krav och lyfter frågor när det förväntade beteendet är oklart.<br/>"
-         "<b>Testautomation:</b> Automatiserar testfall och undersöker vad som orsakar ett misslyckat test.<br/>"
-         "<b>Tillgänglighet:</b> Följer webbflöden med tangentbord och kontrollerar att fokus syns och hamnar rätt.", main_x, y, main_w)
+         "<b>Manuell testning:</b> Tar fram acceptanstester från krav. Stämde av sökkravet med produktägaren, "
+         "valde testdata och kontrollerade att sökning på produktnamn gav förväntad träff.<br/>"
+         "<b>Testautomation:</b> Automatiserar testfall. När en datumkontroll stoppade testet anpassade jag den "
+         "med AI-stöd. Båda berörda testerna gick igenom vid omkörning.<br/>"
+         "<b>Tillgänglighet:</b> Testade sökning, sidbyte och fokus med tangentbord. Efter avstämning med produktägaren "
+         "återtestade jag att panelen stängdes när jag tabbade förbi, tryckte Escape eller klickade utanför. "
+         "Alla tre blev godkända.", main_x, y, main_w)
 
 y = section("EGNA PROJEKT", main_x, y + 1, main_w)
 y = paragraph("Firefox-tillägg för tillgänglighet", main_x, y, main_w, "item", 5)
-y = paragraph("<b>Text Contrast Checker</b> - kontroll av kontrast och färgvärden för markerad text. "
-              "Visar när resultatet behöver granskas manuellt.", main_x, y, main_w, gap=6)
-y = paragraph("<b>Zoom Profiles</b> - sparar zoomnivåer så att jag kan återvända till samma lägen när jag testar.",
+y = paragraph("<b>Text Contrast Checker</b> samlar textfärg, bakgrundsfärg och kontrastvärde för markerad text i en ruta.",
+              main_x, y, main_w, gap=6)
+y = paragraph("<b>Zoom Profiles</b> sparar zoomnivåer så att jag kan upprepa layoutkontroller med samma inställningar.",
               main_x, y, main_w, gap=5)
 y = paragraph("Jag har beskrivit behoven och följt upp hur tilläggen fungerar. Utvecklingen har skett med AI-stöd.",
-              main_x, y, main_w, "small", 14)
+              main_x, y, main_w, "small", 8)
 
 y = section("TIDIGARE YRKESERFARENHET", main_x, y, main_w)
 y = item("Kock - Akershus Universitetssykehus", "Lörenskog, Norge | november 2020 - september 2024",
