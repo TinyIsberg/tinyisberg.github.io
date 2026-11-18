@@ -1,2 +1,2 @@
 User-agent: *
-Disallow: /assets/filip-isberg-cv-utkast.pdf
+Disallow: /assets/Filip-Isberg-CV.pdf

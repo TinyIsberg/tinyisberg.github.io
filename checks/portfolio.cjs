@@ -472,7 +472,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       assert.deepEqual(missing, []);
       const ids = await page.locator('[id]').evaluateAll(elements => elements.map(el => el.id));
       assert.equal(ids.length, new Set(ids).size);
-      for (const file of ['assets/filip-isberg-cv-utkast.pdf','assets/tangentbord-sokpanel.html','assets/kontrast-testning.txt','styles.css','app.js','assets/filip-isberg.jpg','assets/favicon.svg', ...sourceFiles.filter(file => file.startsWith('assets/'))]) {
+      for (const file of ['assets/Filip-Isberg-CV.pdf','assets/tangentbord-sokpanel.html','assets/kontrast-testning.txt','styles.css','app.js','assets/filip-isberg.jpg','assets/favicon.svg', ...sourceFiles.filter(file => file.startsWith('assets/'))]) {
         const response = await page.request.get(new URL(file, base).href);
         assert(response.ok(), file + ' saknas');
         if (file.endsWith('.pdf')) assert((await response.body()).subarray(0, 4).toString() === '%PDF');

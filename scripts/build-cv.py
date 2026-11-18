@@ -11,7 +11,7 @@ from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph
 
 root = Path(__file__).resolve().parents[1]
-target = root / "dist/assets/filip-isberg-cv-utkast.pdf"
+target = root / "dist/assets/Filip-Isberg-CV.pdf"
 for name, query in [("CV", "DejaVu Sans"), ("CVBold", "DejaVu Sans:style=Bold")]:
     font = subprocess.check_output(["fc-match", "-f", "%{file}", query], text=True)
     pdfmetrics.registerFont(TTFont(name, font))
