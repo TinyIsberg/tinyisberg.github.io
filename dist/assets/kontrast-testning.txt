@@ -1,0 +1,22 @@
+Text Contrast Checker 1.2.8
+Automatiska Node-kontroller, körda lokalt vid portfoliogranskningen 18 november 2026.
+
+Kommando: node --test tests/contrast.test.cjs tests/loading.test.cjs
+
+✔ WCAG black/white contrast is 21:1 and equal colors are 1:1 (0.885167ms)
+✔ sRGB threshold cases use the unrounded ratio (0.466637ms)
+✔ large text thresholds include the exact 14pt bold boundary (0.119723ms)
+✔ transparent text and backgrounds compose before measuring (1.566466ms)
+✔ unsupported color spaces are not guessed (0.110278ms)
+✔ an initial loading snapshot cannot overwrite a newer result (8.183743ms)
+✔ a script that does not respond ends with an error instead of permanent loading (6.549147ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 81.193743
+
+Omfattning: beräkningar och laddningsstatus. Inte en full granskning av Firefox-gränssnittet eller WCAG.

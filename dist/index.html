@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta name="robots" content="noindex, nofollow, noimageindex">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f7f6fb">
+  <title>Filip Isberg — Mjukvarutestare & testportfolio</title>
+  <meta name="description" content="Filip Isberg, mjukvarutestare. Testarbete från LIA hos Sportson inom manuell testning, testautomation och tillgänglighet.">
+  <meta property="og:title" content="Filip Isberg — Testportfolio">
+  <meta property="og:description" content="Se hur jag arbetar med testdesign, automation och tillgänglighet.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tinyisberg.github.io/">
+  <meta property="og:image" content="https://tinyisberg.github.io/assets/filip-isberg.jpg">
+  <link rel="canonical" href="https://tinyisberg.github.io/">
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./assets/contrast-math.js" defer></script>
+  <script src="./assets/contrast-selection.js" defer></script>
+  <script src="./assets/contrast-panel.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Hoppa till innehållet</a>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Profil och navigation">
+      <div class="header-body">
+      <div class="sidebar-identity" aria-hidden="true" inert><div class="sidebar-identity-inner">
+      <a class="identity" href="#profil" aria-label="Filip Isberg, till profilen">
+        <span class="sidebar-portrait" aria-hidden="true"></span>
+        <span class="identity-copy"><strong></strong></span>
+      </a>
+      <div class="sidebar-role-slot"></div>
+      </div></div>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Öppna meny"><span class="menu-label">Öppna meny</span><span class="menu-icon" aria-hidden="true">☰</span></button>
+      <div class="nav-panel">
+      <nav id="site-nav" aria-label="Huvudnavigation">
+        <a href="#profil" aria-current="location">Om mig</a>
+        <a href="#arbetsprov">Testarbete</a>
+        <a href="#tillganglighet">Kontrastdemo</a>
+        <a href="#bakgrund">Bakgrund</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+      </div>
+      </div>
+      <p class="sidebar-study">IT-Högskolan, Göteborg<br>Examen 29 januari 2027</p>
+      <a class="sidebar-contact" href="mailto:isberget23@gmail.com">Mejla mig</a>
+    </aside>
+
+    <main id="main">
+      <section id="profil" class="hero section">
+        <div class="hero-content">
+          <h1 aria-label="Filip Isberg"><span class="profile-name">Filip Isberg</span></h1>
+          <div class="hero-role-slot">
+            <div id="job-role" class="sidebar-note">
+              <span class="eyebrow">Söker jobb som</span>
+              <p class="job-title">Mjukvarutestare</p>
+            </div>
+          </div>
+          <div class="hero-description section-surface">
+          <p class="hero-lead">Jag utbildar mig till mjukvarutestare på IT-Högskolan i Göteborg och gör min praktik på Sportson. Där tar jag fram acceptanstester, automatiserar testfall och testar tillgänglighet.</p>
+          <p class="hero-lead">Tidigare arbetade jag som kock, där jag bland annat var teamledare och lärde upp nya kollegor. Det har lärt mig vikten av samarbete och tydlig kommunikation. Jag bytte bana eftersom jag ville arbeta mer med problemlösning.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="./assets/filip-isberg-cv-utkast.pdf" target="_blank" rel="noopener">CV som PDF</a>
+          </div>
+          </div>
+          <figure class="hero-portrait"><img src="./assets/filip-isberg.jpg" alt="Filip Isberg" width="643" height="857" fetchpriority="high"></figure>
+        </div>
+      </section>
+
+      <section id="arbetsprov" class="section">
+        <div class="section-heading"><h2>Testarbete</h2></div>
+        <div class="case-grid">
+          <article class="case-card">
+            <p class="case-category">Manuell testning</p>
+            <h3><button type="button" class="case-title" data-case="portal">Från kravlista till testfall <span aria-hidden="true">+</span></button></h3>
+            <p>Jag stämde av sökkravet med produktägaren och valde testdata. Sökning på produktnamn gav den förväntade träffen.</p>
+          </article>
+          <article class="case-card">
+            <p class="case-category">Testautomation</p>
+            <h3><button type="button" class="case-title" data-case="playwright">När testet stoppade för tidigt <span aria-hidden="true">+</span></button></h3>
+            <p>Datumkontrollen stoppade testet innan kalenderlänken hann kontrolleras. Jag anpassade kontrollen och körde om de två testerna, som då gick igenom.</p>
+          </article>
+          <article class="case-card">
+            <p class="case-category">Tillgänglighet</p>
+            <h3><button type="button" class="case-title" data-case="keyboard">Kan man söka med bara tangentbordet? <span aria-hidden="true">+</span></button></h3>
+            <p>Jag testade sökning och sidbyte med tangentbord. Fokus flyttades till de nya resultaten. Efter avstämning med produktägaren kontrollerade jag också att Tab, Escape och klick utanför stängde panelen.</p>
+          </article>
+          <article class="case-card">
+            <p class="case-category">Egen webbplats</p>
+            <h3><a class="case-title" href="./kontroller.html" target="_blank" rel="noopener">Även den här sidan är testad <span aria-hidden="true">↗</span></a></h3>
+            <p>Jag kontrollerar navigation, dialoger och kontrastberäkning med tangentbord och i olika skärmbredder.</p>
+          </article>
+        </div>
+        <section class="extra-projects" aria-labelledby="extension-heading">
+          <h3 id="extension-heading">Två egna Firefox-tillägg</h3>
+          <div class="extra-project-list">
+            <article class="extra-project"><h4>Text Contrast Checker</h4><p>För att kontrollera textkontrast behövde jag snabbt få fram färger och kontrastvärde. Tillägget samlar uppgifterna för markerad text i samma ruta.</p></article>
+            <article class="extra-project"><h4>Zoom Profiles</h4><p>Jag återkommer till samma zoomnivåer när jag testar sidans layout. Sparade profiler gör det enklare att upprepa kontrollerna med samma inställningar.</p></article>
+          </div>
+        </section>
+      </section>
+
+      <section id="tillganglighet" class="section demo-section">
+        <div class="section-surface">
+        <div class="section-heading"><h2>Prova mitt Firefox-tillägg</h2></div>
+        <p class="demo-intro">Resultatrutan kommer från Text Contrast Checker. Här uppdateras den direkt när du byter textfärg.</p>
+        <div class="demo-grid">
+          <section class="contrast-example" aria-labelledby="example-heading">
+            <h3 id="example-heading" class="demo-label">Exempeltext</h3>
+            <div class="contrast-sample"><p id="contrast-sample">Cyklar och tillbehör</p></div>
+            <div class="contrast-presets" role="group" aria-label="Exempeltextens kontrast"><button type="button" data-contrast="low" aria-pressed="false">Låg</button><button type="button" data-contrast="edge" aria-pressed="true" disabled>Nära gränsen</button><button type="button" data-contrast="clear" aria-pressed="false">Hög</button></div>
+          </section>
+          <section class="contrast-output" aria-labelledby="panel-heading"><h3 id="panel-heading" class="demo-label">Tilläggets kontrollruta</h3><div id="contrast-panel" class="contrast-panel" hidden></div><p id="contrast-error" role="status" hidden>Kunde inte ladda kontrollrutan. Ladda om sidan och försök igen.</p></section>
+        </div>
+        </div>
+      </section>
+
+      <section id="bakgrund" class="section">
+        <div class="section-surface">
+        <div class="section-heading"><h2>Utbildning och erfarenhet</h2><p>Innan jag började med testning arbetade jag i restaurangkök och på sjukhus i Norge.</p></div>
+        <div class="background-grid">
+          <div>
+            <h3 class="timeline-heading">LIA och utbildning</h3>
+            <article class="timeline-item"><span class="timeline-date">14 september 2026–29 januari 2027</span><h4>Testare · LIA hos Sportson</h4><p class="muted">Jag tar fram acceptanstester utifrån kravlistor, testar tillgänglighet på webbplatser och automatiserar testfall. Jag har också tagit fram två Firefox-tillägg för återkommande tillgänglighetskontroller.</p></article>
+            <article class="timeline-item"><span class="timeline-date">Augusti 2025–januari 2027</span><h4>Mjukvarutestare</h4><p>IT-Högskolan, Göteborg · Planerad examen 29 januari 2027</p><ul class="education-list"><li>Testmetodik, kravhantering och testning i agila team.</li><li>Testautomation med Playwright och Robot Framework.</li><li>Java, enhetstestning och testdriven utveckling.</li><li>API-testning.</li><li>Embedded systems och AI: testmiljöer, CAN-kommunikation och testning av AI-system.</li></ul></article>
+          </div>
+          <div>
+            <h3 class="timeline-heading">Tidigare yrkeserfarenhet</h3>
+            <article class="timeline-item"><span class="timeline-date">2020–2024</span><h4>Akershus Universitetssykehus</h4><p>Kock · Lörenskog, Norge</p><p class="muted">Ansvarade för att lära upp nya medarbetare. Teamledare på helger och vid behov på vardagar.</p></article>
+            <article class="timeline-item"><span class="timeline-date">2017–2020</span><h4>Trattoria Popolare</h4><p>Kock · Oslo, Norge</p><p class="muted">Arbetade med lunchservering, öppning och förberedelser inför kvällsservice.</p></article>
+            <article class="timeline-item"><span class="timeline-date">2015–2017</span><h4>Losby Gods Hotel</h4><p>Köksassistent · Lörenskog, Norge</p></article>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <section id="kontakt" class="section contact-section">
+        <h2>Kontakt</h2>
+        <div class="contact-links"><a class="button primary" href="mailto:isberget23@gmail.com">isberget23@gmail.com</a><a class="button" href="tel:+46793571858">079-357 18 58</a><a class="button" href="https://www.linkedin.com/in/filip-isberg-b20226267/" target="_blank" rel="noopener">LinkedIn</a><a class="button" href="./assets/filip-isberg-cv-utkast.pdf" target="_blank" rel="noopener">Öppna CV</a></div>
+        <p class="availability">Tillgänglig från <time datetime="2027-02-01">1 februari 2027</time></p>
+        <p class="contact-location">Söker jobb i Göteborgsregionen<br>Språk: svenska, norska och engelska</p>
+      </section>
+      <footer class="page-footer"><span>Filip Isberg</span><a href="./kontroller.html" target="_blank" rel="noopener">Testning av sidan</a><a href="#profil">Till toppen</a></footer>
+    </main>
+  </div>
+
+  <dialog id="case-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-lead">
+    <div class="dialog-top"><span class="eyebrow" id="dialog-category"></span><button type="button" class="dialog-close" id="dialog-close">Stäng <span aria-hidden="true">×</span></button></div>
+    <h2 id="dialog-title"></h2><p id="dialog-lead" class="dialog-lead"></p>
+    <div id="dialog-content"></div>
+  </dialog>
+  <template id="contrast-panel-template">
+    <link rel="stylesheet" href="./assets/contrast-panel.css">
+    <div class="panel-page">
+      <header><h3 class="panel-title">Text Contrast Checker</h3><span>WCAG 2.2</span></header>
+      <div class="panel-content">
+        <p id="message" role="status">Right-click selected text and choose Check Contrast.</p>
+        <p id="source" class="muted" hidden></p>
+        <div id="results" aria-live="polite" aria-label="Contrast results"></div>
+        <p id="scope" class="muted" hidden>Contrast is based on CSS. Overlapping content may require a manual check.</p>
+        <p class="links"><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html" target="_blank" rel="noopener">AA: 1.4.3</a><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-enhanced.html" target="_blank" rel="noopener">AAA: 1.4.6</a></p>
+        <label class="appearance" for="dark-mode"><span>Dark mode</span><input id="dark-mode" type="checkbox" role="switch" disabled></label>
+        <label class="appearance" for="side-panel"><span>Sidebar</span><input id="side-panel" type="checkbox" role="switch" disabled></label>
+        <p id="settings-error" role="status" hidden></p>
+      </div>
+    </div>
+  </template>
+  <noscript><p class="noscript-message">Aktivera JavaScript för att läsa mer om projekten och prova kontrastdemonstrationen.</p></noscript>
+</body>
+</html>

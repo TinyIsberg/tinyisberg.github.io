@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="sv"><head>
+  <meta name="robots" content="noindex, nofollow, noimageindex"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Återkontroll av sökpanelen – Filip Isberg</title><link rel="stylesheet" href="../styles.css"></head>
+<body><main class="report-document">
+<a href="../index.html#arbetsprov">← Till portfolion</a>
+<p class="eyebrow">Testdokumentation / Omarbetat utdrag</p>
+<h1>Återkontroll av sökpanelen.</h1>
+<p>Sammanfattning av dokumenterade tangentbordskontroller i Sportsons B2E-portal. Interna adresser, testkonton och produktdata har utelämnats.</p>
+<h2>Bekräftat beteende och återtest</h2>
+<p>Efter avstämning med produktägaren har alla tre sätten att stänga sökpanelen återtestats med godkänt resultat.</p>
+<table><thead><tr><th scope="col">Bekräftat krav</th><th scope="col">Återtest</th><th scope="col">Bedömning</th></tr></thead><tbody>
+<tr><td>Panelen stängs när fokus lämnar den med Tab.</td><td>Tabbade förbi panelen och kontrollerade att den stängdes.</td><td>Godkänt</td></tr>
+<tr><td>Escape stänger panelen.</td><td>Tryckte Escape och kontrollerade att panelen stängdes.</td><td>Godkänt</td></tr>
+<tr><td>Klick utanför panelen stänger den.</td><td>Klickade utanför och kontrollerade att panelen stängdes.</td><td>Godkänt</td></tr>
+</tbody></table>
+<h2>Tidigare återkontroll – 16 november 2026</h2>
+<dl class="color-values"><div><dt>Datum</dt><dd>16 november 2026</dd></div><div><dt>Webbläsare</dt><dd>Firefox 158</dd></div><div><dt>Visningsläge</dt><dd>Dator och mobilvy på dator</dd></div></dl>
+<table><thead><tr><th scope="col">Kontroll</th><th scope="col">Observerat resultat</th><th scope="col">Bedömning</th></tr></thead><tbody>
+<tr><td>Nå och använda sökningen</td><td>Sökpanelen öppnades och produktträffar visades vid sökning.</td><td>Godkänt</td></tr>
+<tr><td>Navigera mellan produktträffar</td><td>Tab och Shift+Tab flyttade markeringen. Enter öppnade produkten.</td><td>Godkänt</td></tr>
+<tr><td>Välja numrerad resultatsida</td><td>Sidknappen gick att nå och Enter bytte resultatsida.</td><td>Godkänt</td></tr>
+<tr><td>Gå till nästa sida</td><td>Nästa-pilen gick att nå och använda med tangentbord.</td><td>Godkänt</td></tr>
+<tr><td>Gå till föregående sida</td><td>Föregående-pilen gick att nå och använda med tangentbord.</td><td>Godkänt</td></tr>
+<tr><td>Välja Kategorier i smal vy</td><td>Enter valde söktypen. Efterföljande markerade kontroller var synliga.</td><td>Godkänt</td></tr>
+<tr><td>Välja Varumärken i smal vy</td><td>Enter valde söktypen. Efterföljande markerade kontroller var synliga.</td><td>Godkänt</td></tr>
+<tr><td>Välja Artiklar i smal vy</td><td>Enter valde söktypen. Efterföljande markerade kontroller var synliga.</td><td>Godkänt</td></tr>
+<tr><td>Fortsätta efter sidbyte</td><td>Första produkten på den nya resultatsidan markerades.</td><td>Godkänt</td></tr>
+<tr><td>Tabba vidare förbi panelen</td><td>Panelen stängdes. Förväntad stängningstidpunkt behövde bekräftas.</td><td>Oklart</td></tr>
+</tbody></table>
+<h2>Vad bedömningen gäller</h2>
+<p>De nio huvudkontrollerna bedömdes som godkända i den tidigare dokumentationen. Stängningstidpunkten redovisades då som Oklart och har därefter bekräftats med produktägaren och återtestats enligt uppföljningen ovan. Resultaten innebär inte att hela portalen eller alla tillgänglighetskrav är godkända.</p>
+<h2>Begränsningar i underlaget</h2>
+<p>Den tidigare återkontrollens fullständiga build och testkonfiguration är inte angivna. Datum och testmiljö för det senare återtestet har inte angetts. Mobilvyn var en vy på dator, inte ett test på en fysisk telefon. Detta är en sammanfattning av ett historiskt genomförande.</p>
+<p>Exempel från Filip Isbergs testdokumentation.</p>
+</main></body></html>

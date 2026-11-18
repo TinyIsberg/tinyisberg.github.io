@@ -1,0 +1,209 @@
+{
+  "checkedAt": "2026-11-18T19:54:42.005Z",
+  "scope": "Automatiska kontroller av portfolions statiska filer. Skärmbredder är simulerade; ingen fysisk mobil eller fullständig WCAG-granskning ingår.",
+  "sourceFiles": [
+    "index.html",
+    "styles.css",
+    "app.js",
+    "assets/contrast-math.js",
+    "assets/contrast-selection.js",
+    "assets/contrast-panel.js",
+    "assets/contrast-panel.css"
+  ],
+  "sourceSHA256": "c36a6bbe25587e1692b28ca94a20a61c99be55cf1131db550a4f69ba69ccdc83",
+  "browsers": [
+    {
+      "name": "Chromium",
+      "version": "153.0.8010.12"
+    },
+    {
+      "name": "Firefox",
+      "version": "155.0"
+    }
+  ],
+  "widths": [
+    320,
+    390,
+    768,
+    901,
+    958,
+    1024,
+    1108,
+    1440,
+    1600
+  ],
+  "results": [
+    {
+      "browser": "Chromium",
+      "check": "Tydlig profil och fyra exempel på testarbete",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Hoppa till innehållet fungerar med tangentbord",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Porträttet följer med till sidospalten och tillbaka utan att flytta innehållet",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Porträttet tonas ut och in åt båda håll och klarar avbruten skrollning",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Samma namn och jobbtext tonas ut, flyttas och återkommer tillsammans åt båda håll",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Namn och jobbtext visas tillsammans som en grupp i sidomenyn",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Sidomenyn dras ihop utan hopp när jobbtexten flyttas tillbaka",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Tre LIA-exempel öppnas och Escape återställer fokus",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Profilen centreras mot textrutan och sidospaltens identitet visas först efter skrollning",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Jobbblocket syns under profilnamnet och följer namnet före bilden",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Dialogen håller bakgrunden inaktiv och kan stängas med knapp",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Tre kontrastknappar uppdaterar tilläggets resultat direkt",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Smala skärmbredder orsakar ingen horisontell klippning",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Mobilmenyn öppnas med tangentbord och stängs efter navigering",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Mobilmenyn blir kompakt med profilbild, följer toppen och behåller sidans position",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Lokala underlag, CV och länkmål finns",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Utskriftsvyn behåller innehåll och accepterad textbredd",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Tydlig profil och fyra exempel på testarbete",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Hoppa till innehållet fungerar med tangentbord",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Porträttet följer med till sidospalten och tillbaka utan att flytta innehållet",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Porträttet tonas ut och in åt båda håll och klarar avbruten skrollning",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Samma namn och jobbtext tonas ut, flyttas och återkommer tillsammans åt båda håll",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Namn och jobbtext visas tillsammans som en grupp i sidomenyn",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Sidomenyn dras ihop utan hopp när jobbtexten flyttas tillbaka",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Tre LIA-exempel öppnas och Escape återställer fokus",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Profilen centreras mot textrutan och sidospaltens identitet visas först efter skrollning",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Jobbblocket syns under profilnamnet och följer namnet före bilden",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Dialogen håller bakgrunden inaktiv och kan stängas med knapp",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Tre kontrastknappar uppdaterar tilläggets resultat direkt",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Smala skärmbredder orsakar ingen horisontell klippning",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Mobilmenyn öppnas med tangentbord och stängs efter navigering",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Mobilmenyn blir kompakt med profilbild, följer toppen och behåller sidans position",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Lokala underlag, CV och länkmål finns",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Utskriftsvyn behåller innehåll och accepterad textbredd",
+      "status": "Godkänt"
+    }
+  ],
+  "passed": 34,
+  "failed": 0
+}
