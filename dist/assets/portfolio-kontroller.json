@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-19T14:20:06.375Z",
+  "checkedAt": "2026-11-19T14:24:37.227Z",
   "scope": "Automatiska kontroller av portfolions statiska filer. Skärmbredder är simulerade; ingen fysisk mobil eller fullständig WCAG-granskning ingår.",
   "sourceFiles": [
     "index.html",
@@ -10,7 +10,7 @@
     "assets/contrast-panel.js",
     "assets/contrast-panel.css"
   ],
-  "sourceSHA256": "b4b799c2ff768dc1ef144a0a9b53cdfc2714023f02e75faa0e6a06b523d8d8c2",
+  "sourceSHA256": "f0de18249bf940fa6b09ed610dd8b0ccc62f1bd3f3fb5ef496e7e16036b54c69",
   "browsers": [
     {
       "name": "Chromium",

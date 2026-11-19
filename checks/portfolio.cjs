@@ -282,12 +282,15 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         const geometry = await page.locator('.hero-content').evaluate(el => {
           const image = el.querySelector('.hero-portrait img').getBoundingClientRect();
           const card = el.querySelector('#lite-om-mig').getBoundingClientRect();
+          const intro = el.querySelector('.hero-description').getBoundingClientRect();
           const identity = document.querySelector('.sidebar-identity');
           return {
+            edges: Math.max(Math.abs(intro.top - image.top), Math.abs(intro.bottom - card.bottom)),
             gap: card.top - image.bottom, aligned: Math.abs(card.left - image.left) < 1 && Math.abs(card.width - image.width) < 1,
             imageHeight: image.height, identityHeight: identity.getBoundingClientRect().height, inert: identity.inert
           };
         });
+        assert(geometry.edges < 1, 'Profilbilden och det personliga kortet ska linjera med introduktionsrutans över- och nederkant');
         assert(geometry.aligned && geometry.gap > 0 && geometry.gap <= 20, 'Det personliga kortet ska ligga direkt under porträttet');
         assert(geometry.imageHeight > 0 && geometry.imageHeight <= 240, 'Porträttet ska hålla sin kompakta höjd');
         assert(geometry.identityHeight < 1 && geometry.inert, 'Dubblerad identitet visas i sidospalten högst upp');
@@ -477,11 +480,14 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       }
     });
     await check('Mobilmenyn öppnas med tangentbord och stängs efter navigering', async page => {
-      await page.setViewportSize({ width: 390, height: 1000 });
+      await page.setViewportSize({ width: 495, height: 900 });
       const toggle = page.locator('.menu-toggle');
       await toggle.focus();
       await page.keyboard.press('Enter');
       assert.equal(await toggle.getAttribute('aria-expanded'), 'true');
+      const panel = await page.locator('.nav-panel').boundingBox();
+      const button = await toggle.boundingBox();
+      assert(panel.y > button.y + button.height && Math.abs(panel.x + panel.width - button.x - button.width) < 1, 'Menyn ska öppnas under knappen med samma högerkant');
       await page.keyboard.press('Escape');
       assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
       assert(await toggle.evaluate(el => el === document.activeElement));
