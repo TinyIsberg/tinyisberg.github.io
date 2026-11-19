@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-19T12:11:52.882Z",
+  "checkedAt": "2026-11-19T12:33:38.687Z",
   "scope": "Automatiska kontroller av portfolions statiska filer. Skärmbredder är simulerade; ingen fysisk mobil eller fullständig WCAG-granskning ingår.",
   "sourceFiles": [
     "index.html",
@@ -10,7 +10,7 @@
     "assets/contrast-panel.js",
     "assets/contrast-panel.css"
   ],
-  "sourceSHA256": "932a64c92ef5a049a8d53d8c4fee51f562b80a574343facc0bc4d3cafcf5a703",
+  "sourceSHA256": "c3d8327e3d49d77d83a680841f1aae12676b3f08490ccc51cc1a8f3d7823be86",
   "browsers": [
     {
       "name": "Chromium",
@@ -90,7 +90,7 @@
     },
     {
       "browser": "Chromium",
-      "check": "Kontrastreglaget startar på hög, ändrar sidan och mäter förklaringen ovanför reglaget",
+      "check": "Reglaget ändrar textkontrasten och behåller färgerna på bakgrunder, kanter och fokusmarkeringar",
       "status": "Godkänt"
     },
     {
@@ -175,7 +175,7 @@
     },
     {
       "browser": "Firefox",
-      "check": "Kontrastreglaget startar på hög, ändrar sidan och mäter förklaringen ovanför reglaget",
+      "check": "Reglaget ändrar textkontrasten och behåller färgerna på bakgrunder, kanter och fokusmarkeringar",
       "status": "Godkänt"
     },
     {

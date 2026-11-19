@@ -322,8 +322,8 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       await page.locator('#dialog-close').click();
       assert(!await page.locator('#case-dialog').evaluate(el => el.open));
     });
-    await check('Kontrastreglaget startar på hög, ändrar sidan och mäter förklaringen ovanför reglaget', async page => {
-      const slider = page.getByRole('slider', { name: 'Sidans kontrast' });
+    await check('Reglaget ändrar textkontrasten och behåller färgerna på bakgrunder, kanter och fokusmarkeringar', async page => {
+      const slider = page.getByRole('slider', { name: 'Textkontrast' });
       const panel = page.locator('#contrast-panel');
       await panel.waitFor({ state: 'visible' });
       const description = page.locator('#contrast-description');
@@ -339,16 +339,33 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
           return ContrastSelection.analyze({}, range).groups[0].ratio;
         });
       });
+      const interfaceColors = () => page.evaluate(() => {
+        const style = selector => getComputedStyle(document.querySelector(selector));
+        const primary = style('.button.primary');
+        const nav = style('#site-nav a[aria-current]');
+        const slider = style('#contrast-level');
+        return [
+          style('body').backgroundColor, style('.case-card').backgroundColor, style('.sidebar').backgroundColor,
+          primary.backgroundColor, primary.borderTopColor, style('.button:not(.primary)').borderTopColor,
+          nav.backgroundColor, nav.borderTopColor, style('.case-title > span').color,
+          slider.accentColor, slider.outlineColor
+        ];
+      });
       for (const colorScheme of ['light', 'dark']) {
         await page.emulateMedia({ colorScheme });
         const light = colorScheme === 'light';
         const expectedHigh = light ? 'Contrast: 13.58:1' : 'Contrast: 13.34:1';
         const expectedLow = light ? 'Contrast: 2.28:1' : 'Contrast: 3.33:1';
         await panel.getByText(expectedHigh, { exact: true }).waitFor();
+        await page.locator('[data-case="release"]').focus();
+        await page.keyboard.press('Tab');
+        assert(await slider.evaluate(el => el.matches(':focus-visible')));
+        const surfaces = await interfaceColors();
         const high = await pageRatios();
         await slider.press('Home');
         assert.equal(await slider.inputValue(), '0');
         const low = await pageRatios();
+        assert.deepEqual(await interfaceColors(), surfaces);
         assert(low.every((value, i) => value >= 4.5 && value < high[i]), 'Sidans textkontrast i ' + colorScheme + ': ' + JSON.stringify({ low, high }));
         assert.equal(await panel.locator('.ratio').innerText(), expectedLow);
         assert.equal(await panel.locator('.outcome.fail').count(), 2);
@@ -356,6 +373,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         assert.equal(await slider.inputValue(), '1');
         assert.notEqual(await panel.locator('.ratio').innerText(), expectedLow);
         await slider.fill('34');
+        assert.deepEqual(await interfaceColors(), surfaces);
         assert.equal(await panel.locator('.ratio').innerText(), light ? 'Contrast: 3.91:1' : 'Contrast: 5.75:1');
         assert.equal(await panel.locator('.outcome.fail').count(), light ? 2 : 1);
         if (!await panel.locator('dl').isVisible()) await panel.locator('summary').click();

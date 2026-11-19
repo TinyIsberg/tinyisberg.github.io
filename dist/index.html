@@ -15,7 +15,7 @@
   <meta property="og:image" content="https://tinyisberg.github.io/assets/filip-isberg.jpg">
   <link rel="canonical" href="https://tinyisberg.github.io/">
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./styles.css?v=64ef4fb95007">
+  <link rel="stylesheet" href="./styles.css?v=42a7572f8c5f">
   <script src="./assets/contrast-math.js" defer></script>
   <script src="./assets/contrast-selection.js?v=4a36da91d6d3" defer></script>
   <script src="./assets/contrast-panel.js?v=02b5109c7165" defer></script>
@@ -75,17 +75,17 @@
           <article class="case-card">
             <p class="case-category">Steg 1</p>
             <h3><button type="button" class="case-title" data-case="requirements">Krav och prioritering <span aria-hidden="true">+</span></button></h3>
-            <p>Jag utgick från kravlistan och stämde av kundens prioriteringar. Tillgänglighet var viktigast, bland annat att menyn skulle gå att använda med tangentbord.</p>
+            <p>Jag utgick från kravlistan och frågade kunden vad som var viktigast att testa först. Tillgänglighet hade högst prioritet. Ett av testfallen jag förberedde gällde hur huvudmenyn fungerade för den som använder tangentbord.</p>
           </article>
           <article class="case-card">
             <p class="case-category">Steg 2</p>
             <h3><button type="button" class="case-title" data-case="testcases">Från krav till testfall <span aria-hidden="true">+</span></button></h3>
-            <p>Jag tog fram testfall för huvudmenyn: gå mellan länkarna med tangentbord, se fokus och öppna rätt sida. Testfallen var förberedda inför första versionen.</p>
+            <p>Innan den första versionen var klar skrev jag ner vad som skulle krävas för att godkänna menyn. Jag skulle kunna gå framåt och bakåt mellan länkarna, se vilken länk jag stod på och öppna rätt sida med Enter.</p>
           </article>
           <article class="case-card">
             <p class="case-category">Steg 3</p>
             <h3><button type="button" class="case-title" data-case="bugreport">Testning och buggrapport <span aria-hidden="true">+</span></button></h3>
-            <p>I testningen försvann fokusmarkeringen på vissa menyval. Jag skickade in felet som en bugg till utvecklaren, som sedan rättade det.</p>
+            <p>När jag tabbade genom huvudmenyn försvann fokusmarkeringen på vissa länkar. Då kunde jag inte se vilken länk jag var på väg att öppna. Jag rapporterade felet till utvecklaren, som rättade det.</p>
           </article>
           <article class="case-card">
             <p class="case-category">Steg 4</p>
@@ -107,8 +107,8 @@
         <div class="section-heading"><h2>Prova mitt Firefox-tillägg</h2></div>
         <div class="demo-grid">
           <div class="contrast-control">
-            <label for="contrast-level">Sidans kontrast</label>
-            <p id="contrast-description">Reglaget ändrar kontrasten på hela sidan. Tillägget visar kontrasten mellan den här texten och bakgrunden.</p>
+            <label for="contrast-level">Textkontrast</label>
+            <p id="contrast-description">Reglaget ändrar textkontrasten på sidan. Tillägget visar värdet för den här texten mot bakgrunden.</p>
             <span aria-hidden="true">Låg</span>
             <input type="range" id="contrast-level" aria-describedby="contrast-description" min="0" max="100" value="100" autocomplete="off" disabled>
             <span aria-hidden="true">Hög</span>
