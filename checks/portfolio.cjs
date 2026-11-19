@@ -352,10 +352,10 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
           return ContrastSelection.analyze({}, range).groups[0].ratio;
         });
       });
-      const textAlphas = () => page.evaluate(() => {
+      const textAlphas = (inPanel = false) => page.evaluate(inPanel => {
         const panel = document.querySelector('#contrast-panel').shadowRoot;
-        const elements = [...document.querySelectorAll('.layout *, dialog *'), ...panel.querySelectorAll('*')];
-        const colors = new Set(elements.filter(el => [...el.childNodes].some(node =>
+        const elements = inPanel ? panel.querySelectorAll('*') : document.querySelectorAll('.layout *, dialog *');
+        const colors = new Set([...elements].filter(el => [...el.childNodes].some(node =>
           node.nodeType === Node.TEXT_NODE && /[\p{L}\p{N}]/u.test(node.textContent)
         )).map(el => getComputedStyle(el).color));
         const ctx = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
@@ -365,7 +365,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
           ctx.fillRect(0, 0, 1, 1);
           return ctx.getImageData(0, 0, 1, 1).data[3];
         }))];
-      });
+      }, inPanel);
       const interfaceColors = () => page.evaluate(() => {
         const style = selector => getComputedStyle(document.querySelector(selector));
         const primary = style('.button.primary');
@@ -390,12 +390,14 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         const surfaces = await interfaceColors();
         const high = await pageRatios();
         assert.deepEqual(await textAlphas(), [255]);
+        assert.deepEqual(await textAlphas(true), [255]);
         assert(high.every(value => value >= 4.5));
         await slider.press('Home');
         assert.equal(await slider.inputValue(), '0');
         const low = await pageRatios();
         assert.deepEqual(await interfaceColors(), surfaces);
         assert.deepEqual(await textAlphas(), [102]);
+        assert.deepEqual(await textAlphas(true), [255]);
         assert(low.every((value, i) => value < high[i]), 'Sidans textkontrast i ' + colorScheme + ': ' + JSON.stringify({ low, high }));
         assert.equal(await panel.locator('.ratio').innerText(), expectedLow);
         assert.equal(await panel.locator('.outcome.fail').count(), 2);
@@ -404,6 +406,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         assert.notEqual(await panel.locator('.ratio').innerText(), expectedLow);
         await slider.fill('34');
         assert.deepEqual(await textAlphas(), [154]);
+        assert.deepEqual(await textAlphas(true), [255]);
         assert.deepEqual(await interfaceColors(), surfaces);
         assert.equal(await panel.locator('.ratio').innerText(), light ? 'Contrast: 3.91:1' : 'Contrast: 5.75:1');
         assert.equal(await panel.locator('.outcome.fail').count(), light ? 2 : 1);
