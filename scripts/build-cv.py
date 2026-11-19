@@ -19,7 +19,7 @@ pdfmetrics.registerFontFamily("CV", normal="CV", bold="CVBold")
 
 ink, muted, accent, soft, line = "#302B40", "#666075", "#5A4987", "#EDE8F6", "#E1DCE9"
 styles = {
-    "intro": ParagraphStyle("intro", fontName="CV", fontSize=10.6, leading=15.8, textColor=ink),
+    "intro": ParagraphStyle("intro", fontName="CV", fontSize=10.6, leading=14, textColor=ink),
     "body": ParagraphStyle("body", fontName="CV", fontSize=9.5, leading=13.5, textColor=ink),
     "small": ParagraphStyle("small", fontName="CV", fontSize=8.8, leading=12.6, textColor=muted),
     "item": ParagraphStyle("item", fontName="CVBold", fontSize=10.2, leading=14, textColor=ink),
@@ -87,13 +87,15 @@ c.setLineWidth(1.5)
 c.line(38, 711, width - 38, 711)
 
 intro_bottom = paragraph(
-    "Jag utbildar mig till mjukvarutestare på IT-Högskolan i Göteborg och gör min praktik på Sportson. "
-    "Där tar jag fram acceptanstester, automatiserar testfall och testar tillgänglighet.",
+    "Just nu utbildar jag mig till mjukvarutestare på IT-Högskolan i Göteborg. "
+    "Jag är inne på de sista månaderna av utbildningen och gör min praktik på Sportson. "
+    "Där jobbar jag bland annat med acceptanstester, automatiserar testfall och testar manuellt. "
+    "Jag har också tagit fram egna verktyg för att göra mina manuella tester mer effektiva.",
     38, 690, width - 76, "intro", 6)
 intro_bottom = paragraph(
-    "Tidigare arbetade jag som kock, där jag bland annat var teamledare och lärde upp nya kollegor. "
-    "Det har lärt mig vikten av samarbete och tydlig kommunikation. "
-    "Jag bytte bana eftersom jag ville arbeta mer med problemlösning.",
+    "Tidigare i mitt yrkesliv jobbade jag som kock i restaurangkök och storkök. "
+    "Där arbetade jag både i team och självständigt. Jag hade huvudansvaret på helgerna och lärde upp nyanställda. "
+    "Jag bestämde mig för att byta bana för att få jobba med IT och kvalitet, två områden jag brinner för.",
     38, intro_bottom, width - 76, "intro", 13)
 
 body_top = intro_bottom
