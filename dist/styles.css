@@ -103,6 +103,7 @@ h2{font-size:28px;line-height:1.25;letter-spacing:-.035em}
 .extra-project{background:var(--surface);border-radius:8px;padding:16px}
 .extra-project h4{font-size:15px;line-height:1.4;margin-bottom:8px}
 .extra-project p{font-size:13px;line-height:1.65;color:var(--muted)}
+.extra-project .project-tech{margin-top:8px;font-size:12px;color:var(--accent-text)}
 .demo-grid{display:grid;grid-template-columns:minmax(0,280px) minmax(0,320px);gap:20px;align-items:start}
 .demo-label{font-size:13px;font-weight:500;line-height:1.4;color:var(--muted);margin-bottom:10px}
 .contrast-control{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:0 10px;align-items:center;max-width:280px;color:var(--text);font-size:12px}
