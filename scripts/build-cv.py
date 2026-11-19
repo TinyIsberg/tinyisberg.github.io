@@ -91,12 +91,12 @@ intro_bottom = paragraph(
     "Jag är inne på de sista månaderna av utbildningen och gör min praktik på Sportson. "
     "Där jobbar jag bland annat med acceptanstester, automatiserar testfall och testar manuellt. "
     "Jag har också tagit fram egna verktyg för att göra mina manuella tester mer effektiva.",
-    38, 690, width - 76, "intro", 6)
+    38, 696, width - 76, "intro", 5)
 intro_bottom = paragraph(
     "Tidigare i mitt yrkesliv jobbade jag som kock i restaurangkök och storkök. "
     "Där arbetade jag både i team och självständigt. Jag hade huvudansvaret på helgerna och lärde upp nyanställda. "
     "Jag bestämde mig för att byta bana för att få jobba med IT och kvalitet, två områden jag brinner för.",
-    38, intro_bottom, width - 76, "intro", 13)
+    38, intro_bottom, width - 76, "intro", 10)
 
 body_top = intro_bottom
 c.setFillColor(colors.HexColor(soft))
@@ -117,23 +117,27 @@ y = paragraph("<b>Text Contrast Checker</b> samlar textfärg, bakgrundsfärg och
               main_x, y, main_w, gap=6)
 y = paragraph("<b>Zoom Profiles</b> sparar zoomnivåer så att jag kan upprepa layoutkontroller med samma inställningar.",
               main_x, y, main_w, gap=5)
-y = paragraph("Jag har beskrivit behoven och följt upp hur tilläggen fungerar. Utvecklingen har skett med AI-stöd.",
-              main_x, y, main_w, "small", 8)
 
 y = section("VERKTYG OCH TEKNIK", main_x, y, main_w)
 for group in [
     "<b>Testautomation</b> · Playwright och Robot Framework",
     "<b>Enhetstest</b> · JUnit och Mockito. JaCoCo för kodtäckning.",
     "<b>Krav och testhantering</b> · ReQtest, Jira och Azure DevOps",
-    "<b>Programmering</b> · Java i VS Code och Python i PyCharm",
+    "<b>Programmering</b> · Java, Python, Go (Golang), HTML och JavaScript",
+    "<b>Utvecklingsmiljöer</b> · VS Code, PyCharm, IntelliJ IDEA och Zed",
     "<b>Versionshantering och byggmiljöer</b> · Git, GitHub, Docker, Jenkins och CI/CD-pipelines",
-    "<b>Övrig teknik</b> · Olika Linuxdistributioner, hemmaserver med TrueNAS och QNAP samt CAD och 3D-utskrift",
+    "<b>Övrig teknik</b> · Windows, olika Linuxdistributioner, hemmaserver med TrueNAS och QNAP samt CAD och 3D-utskrift",
 ]:
-    y = paragraph(group, main_x, y, main_w, gap=5)
+    y = paragraph(group, main_x, y, main_w, gap=3)
+
+y = section("LITE OM MIG", main_x, y, main_w)
+y = paragraph("På fritiden mekar jag gärna med min hemmaserver, 3D-printar och spelar tv-spel. "
+              "Jag har mycket energi, gillar att samarbeta och drivs av att utforska nya saker och lära mig mer.",
+              main_x, y, main_w, gap=0)
 
 s = section("UTBILDNING", side_x, body_top - 10, side_w)
 s = paragraph("<b>Mjukvarutestare</b><br/>IT-Högskolan, Göteborg", side_x, s, side_w, "side", 5)
-s = paragraph("Augusti 2025 - januari 2027<br/>Planerad examen 29 januari 2027", side_x, s, side_w, "small", 6)
+s = paragraph("Augusti 2025 - januari 2027<br/>Examensdatum 29 januari 2027", side_x, s, side_w, "small", 6)
 for course in [
     "Testmetodik, kravhantering och testning i agila team.",
     "Testautomation med Playwright och Robot Framework.",
