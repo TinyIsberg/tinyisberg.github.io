@@ -38,7 +38,7 @@ const caseData = {
     lead: 'Jag återtestade huvudmenyn efter utvecklarens rättning. Resultatet blev godkänt.',
     sections: [
       ['Återtestet', 'Jag använde huvudmenyn med tangentbord igen och kontrollerade kravet på synligt fokus. Fokusmarkeringen syntes nu på menyvalen och återtestet blev godkänt.'],
-      ['Från krav till resultat', 'Samma krav följde med från planeringen till testfallet, buggrapporten och återtestet. På så sätt kunde jag följa upp att det rapporterade felet var löst.']
+      ['Det jag tar med mig', 'Menyfelet bekräftade hur viktigt det var att ha med synligt fokus i testfallet. Om jag bara hade kontrollerat att rätt sida öppnades med Enter kunde jag ha missat att det ibland inte gick att se vilken länk jag stod på.']
     ]
   }
 };

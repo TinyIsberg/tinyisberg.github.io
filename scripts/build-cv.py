@@ -104,9 +104,8 @@ y = item("Testare (LIA) - Sportson", "14 september 2026 - 29 januari 2027",
          "valde testdata och kontrollerade att sökning på produktnamn gav förväntad träff.<br/>"
          "<b>Testautomation:</b> Automatiserar testfall. När en datumkontroll stoppade testet anpassade jag den "
          "med AI-stöd. Båda berörda testerna gick igenom vid omkörning.<br/>"
-         "<b>Tillgänglighet:</b> Testade sökning, sidbyte och fokus med tangentbord. Efter avstämning med produktägaren "
-         "återtestade jag att panelen stängdes när jag tabbade förbi, tryckte Escape eller klickade utanför. "
-         "Alla tre blev godkända.", main_x, y, main_w)
+         "<b>Tillgänglighet:</b> När jag testade huvudmenyn med tangentbord försvann fokusmarkeringen på vissa "
+         "länkar. Jag rapporterade felet till utvecklaren. Efter rättningen testade jag igen och såg vilken länk jag stod på.", main_x, y, main_w)
 
 y = section("EGNA PROJEKT", main_x, y + 1, main_w)
 y = paragraph("Firefox-tillägg för tillgänglighet", main_x, y, main_w, "item", 5)
