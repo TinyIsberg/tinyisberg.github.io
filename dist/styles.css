@@ -1,6 +1,6 @@
 :root{
   color-scheme:light dark;
-  --ink:1;
+  --ink:calc(.8 + .2 * var(--contrast-level,1));
   --bg:light-dark(rgb(247 246 251 / var(--ink)),rgb(23 22 31 / var(--ink)));
   --surface:light-dark(#fff,#23212e);
   --text:light-dark(rgb(48 43 64 / var(--ink)),rgb(238 234 245 / var(--ink)));
@@ -100,13 +100,15 @@ h2{font-size:28px;line-height:1.25;letter-spacing:-.035em}
 .extra-project{background:var(--surface);border-radius:8px;padding:16px}
 .extra-project h4{font-size:15px;line-height:1.4;margin-bottom:8px}
 .extra-project p{font-size:13px;line-height:1.65;color:var(--muted)}
-.demo-intro{font-size:14px;color:var(--muted);margin:-8px 0 18px;max-width:64ch}
 .demo-grid{display:grid;grid-template-columns:minmax(0,280px) minmax(0,320px);gap:20px;align-items:start}
 .demo-label{font-size:13px;font-weight:500;line-height:1.4;color:var(--muted);margin-bottom:10px}
-.contrast-sample{background:#fff;border-radius:6px;padding:12px 14px;min-height:54px;display:flex;align-items:center;max-width:280px}
-#contrast-sample{font:400 16px/1.6 system-ui,sans-serif;color:#333}
-.contrast-control{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:0 10px;align-items:center;max-width:280px;margin-top:14px;color:light-dark(#302b40,#eeeaf5);font-size:12px}
+.contrast-control{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:0 10px;align-items:center;max-width:280px;color:light-dark(#302b40,#eeeaf5);font-size:12px}
 .contrast-control label{grid-column:1/-1;font-size:14px;font-weight:500}
+#contrast-description{
+  --strength:calc(.4 + .6 * var(--contrast-level,1));
+  grid-column:1/-1;margin:6px 0;font-size:14px;
+  color:light-dark(rgb(48 43 64 / var(--strength)),rgb(238 234 245 / var(--strength)))
+}
 .contrast-control input{width:100%;height:44px;margin:0;accent-color:light-dark(#5a4987,#cbb8f0);cursor:pointer}
 .contrast-panel{width:320px;max-width:100%;border:1px solid var(--line);border-radius:7px;overflow:hidden;box-shadow:0 8px 24px light-dark(#302b4012,#0003)}
 .contrast-panel[data-view="sidebar"]{width:100%}

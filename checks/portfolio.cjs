@@ -322,14 +322,15 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       await page.locator('#dialog-close').click();
       assert(!await page.locator('#case-dialog').evaluate(el => el.open));
     });
-    await check('Kontrastreglaget startar på hög, ändrar sidan och mäter exempeltexten', async page => {
+    await check('Kontrastreglaget startar på hög, ändrar sidan och mäter förklaringen ovanför reglaget', async page => {
       const slider = page.getByRole('slider', { name: 'Sidans kontrast' });
       const panel = page.locator('#contrast-panel');
       await panel.waitFor({ state: 'visible' });
-      assert.equal(await panel.locator('input[type="range"],#contrast-sample').count(), 0);
+      const description = page.locator('#contrast-description');
+      assert.equal(await page.locator('.contrast-sample,#contrast-sample').count(), 0);
+      assert.equal(await panel.locator('.sample').innerText(), '"' + await description.innerText() + '"');
+      assert.equal(await slider.getAttribute('aria-describedby'), 'contrast-description');
       assert.equal(await slider.inputValue(), '100');
-      assert.equal(await panel.locator('.ratio').innerText(), 'Contrast: 12.63:1');
-
       const pageRatios = () => page.evaluate(() => {
         const selectors = ['.hero-lead', '.case-card p:last-child', '.extra-project p', '.timeline-date', '.contact-location', '.button.primary', '#site-nav a[href="#bakgrund"]'];
         return selectors.map(selector => {
@@ -340,39 +341,42 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       });
       for (const colorScheme of ['light', 'dark']) {
         await page.emulateMedia({ colorScheme });
-        await slider.press('End');
+        const light = colorScheme === 'light';
+        const expectedHigh = light ? 'Contrast: 13.58:1' : 'Contrast: 13.34:1';
+        const expectedLow = light ? 'Contrast: 2.28:1' : 'Contrast: 3.33:1';
+        await panel.getByText(expectedHigh, { exact: true }).waitFor();
         const high = await pageRatios();
         await slider.press('Home');
         assert.equal(await slider.inputValue(), '0');
         const low = await pageRatios();
         assert(low.every((value, i) => value >= 4.5 && value < high[i]), 'Sidans textkontrast i ' + colorScheme + ': ' + JSON.stringify({ low, high }));
-        assert.equal(await panel.locator('.ratio').innerText(), 'Contrast: 2.81:1');
+        assert.equal(await panel.locator('.ratio').innerText(), expectedLow);
         assert.equal(await panel.locator('.outcome.fail').count(), 2);
         await slider.press('ArrowRight');
         assert.equal(await slider.inputValue(), '1');
-        assert.notEqual(await panel.locator('.ratio').innerText(), 'Contrast: 2.81:1');
+        assert.notEqual(await panel.locator('.ratio').innerText(), expectedLow);
         await slider.fill('34');
-        assert.equal(await panel.locator('.ratio').innerText(), 'Contrast: 4.47:1');
-        assert.equal(await panel.locator('.outcome.fail').count(), 2);
+        assert.equal(await panel.locator('.ratio').innerText(), light ? 'Contrast: 3.91:1' : 'Contrast: 5.75:1');
+        assert.equal(await panel.locator('.outcome.fail').count(), light ? 2 : 1);
         if (!await panel.locator('dl').isVisible()) await panel.locator('summary').click();
-        assert.match(await panel.locator('dl').innerText(), /#777777/);
-        assert.match(await panel.locator('dl').innerText(), /16 px · regular text/);
+        assert.match(await panel.locator('dl').innerText(), light ? /#827F8C/ : /#9E9AA6/);
+        assert.match(await panel.locator('dl').innerText(), /14 px · regular text/);
         await slider.press('End');
         assert.equal(await panel.locator('.outcome.pass').count(), 1);
         assert(await panel.locator('dl').isVisible());
-        assert.match(await panel.locator('dl').innerText(), /#333333/);
+        assert.match(await panel.locator('dl').innerText(), light ? /#302B40/ : /#EEEAF5/);
         assert.deepEqual(await pageRatios(), high);
       }
       await slider.press('Home');
       await page.reload();
       await panel.waitFor({ state: 'visible' });
       assert.equal(await slider.inputValue(), '100');
-      assert.equal(await panel.locator('.ratio').innerText(), 'Contrast: 12.63:1');
+      assert.equal(await panel.locator('.ratio').innerText(), 'Contrast: 13.34:1');
       const ratio = await panel.locator('.ratio').innerText();
       const appearance = panel.locator('#dark-mode');
       const original = await appearance.isChecked();
       await appearance.setChecked(!original);
-      assert.equal(await panel.locator('.ratio').innerText(), ratio, 'Tilläggets färgläge påverkar exemplet');
+      assert.equal(await panel.locator('.ratio').innerText(), ratio, 'Tilläggets färgläge påverkar mätningen');
       assert.equal(await panel.evaluate(el => getComputedStyle(el.shadowRoot.querySelector('.panel-page')).backgroundColor), original ? 'rgb(255, 255, 255)' : 'rgb(26, 26, 26)');
       await appearance.setChecked(original);
       await panel.locator('#side-panel').check();
@@ -384,6 +388,9 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       await page.locator('#contrast-panel').waitFor({ state: 'visible' });
       for (const width of widths) {
         await page.setViewportSize({ width, height: 1000 });
+        const description = await page.locator('#contrast-description').boundingBox();
+        const slider = await page.locator('#contrast-level').boundingBox();
+        assert(description && slider && description.y + description.height <= slider.y + 1, 'Förklaringen ligger inte ovanför reglaget vid bredden ' + width);
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1), 'Sidans innehåll går utanför bredden ' + width);
         assert(await page.locator('.case-card').evaluateAll(cards => {
           const boxes = cards.map(card => card.getBoundingClientRect());

@@ -209,19 +209,16 @@ const initialized = initialize();
     return { ready: Promise.all([initialized, styled]), update: render };
   }
   const host = document.getElementById('contrast-panel');
-  const sample = document.getElementById('contrast-sample');
   const slider = document.getElementById('contrast-level');
   const sampleRange = document.createRange();
-  sampleRange.selectNodeContents(sample);
+  sampleRange.selectNodeContents(document.getElementById('contrast-description'));
+  const colorScheme = matchMedia('(prefers-color-scheme: dark)');
   const panel = mountPanel(host, {
-    appearance: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+    appearance: colorScheme.matches ? 'dark' : 'light',
     sidePanel: false,
   }, () => {});
   function update() {
-    const level = slider.valueAsNumber / 100;
-    const channel = Math.round(154 - 103 * level);
-    sample.style.color = `rgb(${channel}, ${channel}, ${channel})`;
-    document.documentElement.style.setProperty('--ink', 0.8 + 0.2 * level);
+    document.documentElement.style.setProperty('--contrast-level', slider.valueAsNumber / 100);
     const report = globalThis.ContrastSelection.analyze({}, sampleRange);
     if (report.state === 'ready') report.source = 'Portfolions demo';
     const detailsOpen = host.shadowRoot.querySelector('details[open]');
@@ -231,6 +228,7 @@ const initialized = initialize();
   slider.value = slider.defaultValue;
   slider.disabled = false;
   slider.addEventListener('input', update);
+  colorScheme.addEventListener('change', update);
   panel.ready.then(() => {
     host.hidden = false;
     update();
