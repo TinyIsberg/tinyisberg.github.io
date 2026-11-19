@@ -30,6 +30,7 @@ c.setTitle("Filip Isberg - Mjukvarutestare")
 c.setAuthor("Filip Isberg")
 c.setSubject("CV: manuell testning, testautomation och tillgänglighet")
 width, height = A4
+main_x, main_w, side_x, side_w = 38, 306, 370, 187
 
 
 def text(value, x, y, size=9.5, font="CV", color=ink):
@@ -61,39 +62,40 @@ def item(title, period, description, x, top, available):
 
 # A quiet portrait header shares the portfolio's violet palette.
 c.setFillColor(colors.HexColor("#F7F6FB"))
-c.rect(0, 672, width, height - 672, fill=1, stroke=0)
+c.rect(0, 712, width, height - 712, fill=1, stroke=0)
 c.saveState()
 clip = c.beginPath()
-clip.roundRect(38, 703, 83, 114, 9)
+clip.roundRect(38, 727, 69, 92, 9)
 c.clipPath(clip, stroke=0, fill=0)
-c.drawImage(str(root / "dist/assets/filip-isberg.jpg"), 38, 703, 83, 114,
+c.drawImage(str(root / "dist/assets/filip-isberg.jpg"), 38, 727, 69, 92,
             preserveAspectRatio=True, anchor="c", mask="auto")
 c.restoreState()
-text("Filip Isberg", 142, 799, 32, "CVBold")
-text("Mjukvarutestare", 143, 774, 13, color=accent)
-text("Tillgänglig från 1 februari 2027", 143, 751, 9.3, color=ink)
-text("IT-Högskolan, Göteborg - Examen 29 januari 2027", 143, 730, 9.3, color=muted)
-paragraph('<link href="mailto:isberget23@gmail.com" color="' + accent + '">isberget23@gmail.com</link>'
-          ' &nbsp; | &nbsp; <link href="tel:+46793571858" color="' + accent + '">079-357 18 58</link>',
-          143, 714, 414, "small")
-paragraph('Göteborgsregionen &nbsp; | &nbsp; <link href="https://www.linkedin.com/in/filip-isberg-b20226267/" color="' + accent + '">LinkedIn</link>'
+text("Filip Isberg", 125, 793, 29, "CVBold")
+text("Mjukvarutestare", 126, 771, 13, color=accent)
+text("Tillgänglig från 1 februari 2027", 126, 747, 9.3)
+text("IT-Högskolan, Göteborg", 126, 732, 9.3, color=muted)
+text("Examen 29 januari 2027", 126, 719, 9.3, color=muted)
+paragraph('<link href="mailto:isberget23@gmail.com" color="' + accent + '">isberget23@gmail.com</link><br/>'
+          '<link href="tel:+46793571858" color="' + accent + '">079-357 18 58</link><br/>'
+          '<link href="https://www.linkedin.com/in/filip-isberg-b20226267/" color="' + accent + '">LinkedIn</link>'
           ' &nbsp; | &nbsp; <link href="https://tinyisberg.github.io/" color="' + accent + '">tinyisberg.github.io</link>',
-          143, 696, 414, "small")
+          side_x, 813, side_w, "side")
+paragraph("Göteborgsregionen<br/><b>Språk</b> · Svenska, norska och engelska",
+          side_x, 755, side_w, "side")
 c.setStrokeColor(colors.HexColor(accent))
 c.setLineWidth(1.5)
-c.line(38, 671, width - 38, 671)
+c.line(38, 711, width - 38, 711)
 
 intro_bottom = paragraph(
     "Jag utbildar mig till mjukvarutestare på IT-Högskolan i Göteborg och gör min praktik på Sportson. "
     "Där tar jag fram acceptanstester, automatiserar testfall och testar tillgänglighet.",
-    38, 650, width - 76, "intro", 6)
+    38, 690, width - 76, "intro", 6)
 intro_bottom = paragraph(
     "Tidigare arbetade jag som kock, där jag bland annat var teamledare och lärde upp nya kollegor. "
     "Det har lärt mig vikten av samarbete och tydlig kommunikation. "
     "Jag bytte bana eftersom jag ville arbeta mer med problemlösning.",
     38, intro_bottom, width - 76, "intro", 13)
 
-main_x, main_w, side_x, side_w = 38, 334, 398, 159
 body_top = intro_bottom
 c.setFillColor(colors.HexColor(soft))
 c.roundRect(side_x - 16, 52, side_w + 31, body_top - 48, 9, fill=1, stroke=0)
@@ -116,18 +118,20 @@ y = paragraph("<b>Zoom Profiles</b> sparar zoomnivåer så att jag kan upprepa l
 y = paragraph("Jag har beskrivit behoven och följt upp hur tilläggen fungerar. Utvecklingen har skett med AI-stöd.",
               main_x, y, main_w, "small", 8)
 
-y = section("TIDIGARE YRKESERFARENHET", main_x, y, main_w)
-y = item("Kock - Akershus Universitetssykehus", "Lörenskog, Norge | november 2020 - september 2024",
-         "Ansvarade för att lära upp nya medarbetare. Teamledare på helger och vid behov på vardagar.",
-         main_x, y, main_w)
-y = item("Kock - Trattoria Popolare", "Oslo, Norge | augusti 2017 - september 2020",
-         "Samarbete i kök, lunchservering och förberedelser för kvällsservice.", main_x, y, main_w)
-y = paragraph("<b>Köksassistent - Losby Gods Hotel</b><br/>"
-              "Lörenskog, Norge | november 2015 - juli 2017", main_x, y, main_w, "small", 0)
+y = section("VERKTYG OCH TEKNIK", main_x, y, main_w)
+for group in [
+    "<b>Testautomation</b> · Playwright och Robot Framework",
+    "<b>Enhetstest</b> · JUnit och Mockito. JaCoCo för kodtäckning.",
+    "<b>Krav och testhantering</b> · ReQtest, Jira och Azure DevOps",
+    "<b>Programmering</b> · Java i VS Code och Python i PyCharm",
+    "<b>Versionshantering och byggmiljöer</b> · Git, GitHub, Docker, Jenkins och CI/CD-pipelines",
+    "<b>Övrig teknik</b> · Olika Linuxdistributioner, hemmaserver med TrueNAS och QNAP samt CAD och 3D-utskrift",
+]:
+    y = paragraph(group, main_x, y, main_w, gap=5)
 
-s = section("UTBILDNING", side_x, body_top - 14, side_w)
+s = section("UTBILDNING", side_x, body_top - 10, side_w)
 s = paragraph("<b>Mjukvarutestare</b><br/>IT-Högskolan, Göteborg", side_x, s, side_w, "side", 5)
-s = paragraph("Augusti 2025 - januari 2027<br/>Planerad examen 29 januari 2027", side_x, s, side_w, "small", 11)
+s = paragraph("Augusti 2025 - januari 2027<br/>Planerad examen 29 januari 2027", side_x, s, side_w, "small", 6)
 for course in [
     "Testmetodik, kravhantering och testning i agila team.",
     "Testautomation med Playwright och Robot Framework.",
@@ -135,12 +139,18 @@ for course in [
     "API-testning.",
     "Embedded systems och AI: testmiljöer, CAN-kommunikation och testning av AI-system.",
 ]:
-    s = paragraph(course, side_x, s, side_w, "side", 8)
-s -= 5
+    s = paragraph(course, side_x, s, side_w, "side", 2)
+s -= 4
 s = paragraph("<b>Kock och servitör</b><br/>Lörenskog Gymnasiet, Norge", side_x, s, side_w, "side", 4)
-s = paragraph("2015-2019<br/>Teori och restaurangpraktik.", side_x, s, side_w, "small", 16)
-s = section("SPRÅK", side_x, s, side_w)
-s = paragraph("Svenska, norska och engelska", side_x, s, side_w, "side", 0)
+s = paragraph("2015-2019<br/>Teori och restaurangpraktik.", side_x, s, side_w, "small", 7)
+s = section("TIDIGARE YRKESERFARENHET", side_x, s, side_w)
+s = item("Kock - Akershus Universitetssykehus", "Lörenskog, Norge | november 2020 - september 2024",
+         "Ansvarade för att lära upp nya medarbetare. Teamledare på helger och vid behov på vardagar.",
+         side_x, s, side_w)
+s = item("Kock - Trattoria Popolare", "Oslo, Norge | augusti 2017 - september 2020",
+         "Samarbete i kök, lunchservering och förberedelser för kvällsservice.", side_x, s, side_w)
+s = paragraph("<b>Köksassistent - Losby Gods Hotel</b><br/>"
+              "Lörenskog, Norge | november 2015 - juli 2017", side_x, s, side_w, "small", 0)
 
 assert min(y, s) >= 63, f"CV column overflow: main={y:.1f}, sidebar={s:.1f}"
 text("Filip Isberg  /  CV", 38, 28, 8, color=muted)
