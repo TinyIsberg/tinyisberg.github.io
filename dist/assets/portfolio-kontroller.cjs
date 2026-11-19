@@ -322,38 +322,52 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       await page.locator('#dialog-close').click();
       assert(!await page.locator('#case-dialog').evaluate(el => el.open));
     });
-    await check('Tre kontrastknappar uppdaterar tilläggets resultat direkt', async page => {
+    await check('Kontrastreglaget startar på hög, ändrar sidan och mäter exempeltexten', async page => {
+      const slider = page.getByRole('slider', { name: 'Sidans kontrast' });
       const panel = page.locator('#contrast-panel');
       await panel.waitFor({ state: 'visible' });
-      assert.equal(await page.locator('[data-contrast]').count(), 3);
-      assert.equal(await panel.locator('[data-contrast],#contrast-sample').count(), 0, 'Exempel eller demoknappar ligger i tilläggsrutan');
-      const pageColor = await page.locator('body').evaluate(el => getComputedStyle(el).color);
-      const expected = [
-        ['edge', '4.47:1', 0, '#777777'],
-        ['clear', '12.63:1', 1, '#333333'],
-        ['low', '2.81:1', 0, '#9A9A9A']
-      ];
-      for (const [key, ratio, passed, color] of expected) {
-        const preset = page.locator('[data-contrast="' + key + '"]');
-        if (!await preset.isDisabled()) await preset.click();
-        assert(await preset.isDisabled(), 'Valt kontrastläge går fortfarande att trycka på');
-        const beforeHover = await preset.evaluate(el => ({ color: getComputedStyle(el).color, background: getComputedStyle(el).backgroundColor }));
-        await preset.hover();
-        assert.deepEqual(await preset.evaluate(el => ({ color: getComputedStyle(el).color, background: getComputedStyle(el).backgroundColor })), beforeHover);
-        assert(await preset.evaluate(el => {
-          const style = getComputedStyle(el);
-          return ContrastMath.contrast(ContrastMath.parseColor(style.color), ContrastMath.parseColor(style.backgroundColor)) >= 4.5;
-        }), 'Det valda lägets textkontrast är för låg');
-        assert.equal(await panel.locator('.ratio').innerText(), 'Contrast: ' + ratio);
-        assert.equal(await panel.locator('.outcome.pass').count(), passed);
-        assert.equal(await panel.locator('.outcome.fail').count(), passed ? 0 : 2);
-        await panel.locator('summary').click();
-        assert((await panel.locator('dl').innerText()).includes(color));
+      assert.equal(await panel.locator('input[type="range"],#contrast-sample').count(), 0);
+      assert.equal(await slider.inputValue(), '100');
+      assert.equal(await panel.locator('.ratio').innerText(), 'Contrast: 12.63:1');
+
+      const pageRatios = () => page.evaluate(() => {
+        const selectors = ['.hero-lead', '.case-card p:last-child', '.extra-project p', '.timeline-date', '.contact-location', '.button.primary', '#site-nav a[href="#bakgrund"]'];
+        return selectors.map(selector => {
+          const range = document.createRange();
+          range.selectNodeContents(document.querySelector(selector));
+          return ContrastSelection.analyze({}, range).groups[0].ratio;
+        });
+      });
+      for (const colorScheme of ['light', 'dark']) {
+        await page.emulateMedia({ colorScheme });
+        await slider.press('End');
+        const high = await pageRatios();
+        await slider.press('Home');
+        assert.equal(await slider.inputValue(), '0');
+        const low = await pageRatios();
+        assert(low.every((value, i) => value >= 4.5 && value < high[i]), 'Sidans textkontrast i ' + colorScheme + ': ' + JSON.stringify({ low, high }));
+        assert.equal(await panel.locator('.ratio').innerText(), 'Contrast: 2.81:1');
+        assert.equal(await panel.locator('.outcome.fail').count(), 2);
+        await slider.press('ArrowRight');
+        assert.equal(await slider.inputValue(), '1');
+        assert.notEqual(await panel.locator('.ratio').innerText(), 'Contrast: 2.81:1');
+        await slider.fill('34');
+        assert.equal(await panel.locator('.ratio').innerText(), 'Contrast: 4.47:1');
+        assert.equal(await panel.locator('.outcome.fail').count(), 2);
+        if (!await panel.locator('dl').isVisible()) await panel.locator('summary').click();
+        assert.match(await panel.locator('dl').innerText(), /#777777/);
         assert.match(await panel.locator('dl').innerText(), /16 px · regular text/);
-        assert.equal(await page.locator('[data-contrast][aria-pressed="true"]').count(), 1);
-        assert(!await page.locator('#case-dialog').evaluate(el => el.open));
-        assert.equal(await page.locator('body').evaluate(el => getComputedStyle(el).color), pageColor);
+        await slider.press('End');
+        assert.equal(await panel.locator('.outcome.pass').count(), 1);
+        assert(await panel.locator('dl').isVisible());
+        assert.match(await panel.locator('dl').innerText(), /#333333/);
+        assert.deepEqual(await pageRatios(), high);
       }
+      await slider.press('Home');
+      await page.reload();
+      await panel.waitFor({ state: 'visible' });
+      assert.equal(await slider.inputValue(), '100');
+      assert.equal(await panel.locator('.ratio').innerText(), 'Contrast: 12.63:1');
       const ratio = await panel.locator('.ratio').innerText();
       const appearance = panel.locator('#dark-mode');
       const original = await appearance.isChecked();

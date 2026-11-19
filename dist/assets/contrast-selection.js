@@ -100,7 +100,7 @@
     return { ...measurement, status: "measured" };
   }
 
-  function analyze(context = {}) {
+  function analyze(context = {}, sampleRange) {
     if (context.url && context.url !== location.href) return { state: "error", message: "The page changed. Select the text again and retry." };
     const parts = [];
     const target = context.targetElementId !== undefined ? browser.menus.getTargetElement(context.targetElementId) : null;
@@ -109,8 +109,8 @@
       parts.push({ element: target, text: target.value.slice(target.selectionStart, target.selectionEnd), rects: [...target.getClientRects()] });
     } else {
       const selection = window.getSelection();
-      for (let index = 0; index < (selection?.rangeCount ?? 0); index++) {
-        const range = selection.getRangeAt(index);
+      const ranges = sampleRange ? [sampleRange] : Array.from({ length: selection?.rangeCount ?? 0 }, (_, index) => selection.getRangeAt(index));
+      for (const range of ranges) {
         if (range.collapsed) continue;
         const root = range.commonAncestorContainer;
         const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);

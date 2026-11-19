@@ -210,33 +210,30 @@ const initialized = initialize();
   }
   const host = document.getElementById('contrast-panel');
   const sample = document.getElementById('contrast-sample');
-  const buttons = [...document.querySelectorAll('[data-contrast]')];
-  const presets = { low: 154, edge: 119, clear: 51 };
+  const slider = document.getElementById('contrast-level');
+  const sampleRange = document.createRange();
+  sampleRange.selectNodeContents(sample);
   const panel = mountPanel(host, {
     appearance: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
     sidePanel: false,
   }, () => {});
-  function update(button) {
-    const channel = presets[button.dataset.contrast];
+  function update() {
+    const level = slider.valueAsNumber / 100;
+    const channel = Math.round(154 - 103 * level);
     sample.style.color = `rgb(${channel}, ${channel}, ${channel})`;
-    for (const item of buttons) {
-      item.setAttribute('aria-pressed', String(item === button));
-      item.disabled = item === button;
-    }
-    const range = document.createRange();
-    const selection = window.getSelection();
-    range.selectNodeContents(sample);
-    selection.removeAllRanges();
-    selection.addRange(range);
-    const report = globalThis.ContrastSelection.analyze();
-    selection.removeAllRanges();
+    document.documentElement.style.setProperty('--ink', 0.8 + 0.2 * level);
+    const report = globalThis.ContrastSelection.analyze({}, sampleRange);
     if (report.state === 'ready') report.source = 'Portfolions demo';
+    const detailsOpen = host.shadowRoot.querySelector('details[open]');
     panel.update(report);
+    if (detailsOpen) host.shadowRoot.querySelector('details')?.setAttribute('open', '');
   }
+  slider.value = slider.defaultValue;
+  slider.disabled = false;
+  slider.addEventListener('input', update);
   panel.ready.then(() => {
-    for (const button of buttons) button.addEventListener('click', () => update(button));
     host.hidden = false;
-    update(buttons.find(button => button.getAttribute('aria-pressed') === 'true'));
+    update();
   }).catch(error => {
     console.error(error);
     host.hidden = true;

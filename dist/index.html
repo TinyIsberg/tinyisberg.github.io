@@ -105,12 +105,17 @@
       <section id="tillganglighet" class="section demo-section">
         <div class="section-surface">
         <div class="section-heading"><h2>Prova mitt Firefox-tillägg</h2></div>
-        <p class="demo-intro">Resultatrutan kommer från Text Contrast Checker. Här uppdateras den direkt när du byter textfärg.</p>
+        <p class="demo-intro">Reglaget ändrar kontrasten på hela sidan. Text Contrast Checker visar kontrastvärdet för exempeltexten.</p>
         <div class="demo-grid">
           <section class="contrast-example" aria-labelledby="example-heading">
             <h3 id="example-heading" class="demo-label">Exempeltext</h3>
             <div class="contrast-sample"><p id="contrast-sample">Cyklar och tillbehör</p></div>
-            <div class="contrast-presets" role="group" aria-label="Exempeltextens kontrast"><button type="button" data-contrast="low" aria-pressed="false">Låg</button><button type="button" data-contrast="edge" aria-pressed="true" disabled>Nära gränsen</button><button type="button" data-contrast="clear" aria-pressed="false">Hög</button></div>
+            <div class="contrast-control">
+              <label for="contrast-level">Sidans kontrast</label>
+              <span aria-hidden="true">Låg</span>
+              <input type="range" id="contrast-level" min="0" max="100" value="100" autocomplete="off" disabled>
+              <span aria-hidden="true">Hög</span>
+            </div>
           </section>
           <section class="contrast-output" aria-labelledby="panel-heading"><h3 id="panel-heading" class="demo-label">Tilläggets kontrollruta</h3><div id="contrast-panel" class="contrast-panel" hidden></div><p id="contrast-error" role="status" hidden>Kunde inte ladda kontrollrutan. Ladda om sidan och försök igen.</p></section>
         </div>
