@@ -120,10 +120,13 @@ h2{font-size:28px;line-height:1.25;letter-spacing:-.035em}
 .timeline-item p{font-size:13px;line-height:1.65;margin-top:5px}
 .education-list{font-size:13px;line-height:1.65;color:var(--muted);padding-left:17px;margin:10px 0 0}
 .education-list li+li{margin-top:5px}
-#verktyg{margin-top:20px;scroll-margin-top:96px}
-.tools-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px 24px;margin:12px 0 0}
+#verktyg{container-type:inline-size;margin-top:16px;padding-block:14px;scroll-margin-top:96px}
+#verktyg h2{font-size:22px}
+.tools-list{display:grid;gap:10px 20px;margin:10px 0 0;line-height:1.45}
 .tools-list dt{font-size:14px;font-weight:600}
-.tools-list dd{margin:3px 0 0;color:var(--muted);font-size:13px}
+.tools-list dd{margin:2px 0 0;color:var(--muted);font-size:13px}
+@container (min-width:27rem){.tools-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@container (min-width:41rem){.tools-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .muted{color:var(--muted)}
 .contact-section{background:var(--soft);border-radius:10px;padding:24px;margin:12px 0 20px}
 .contact-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
