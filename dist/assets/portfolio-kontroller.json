@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-19T14:15:48.446Z",
+  "checkedAt": "2026-11-19T14:20:06.375Z",
   "scope": "Automatiska kontroller av portfolions statiska filer. Skärmbredder är simulerade; ingen fysisk mobil eller fullständig WCAG-granskning ingår.",
   "sourceFiles": [
     "index.html",
@@ -10,7 +10,7 @@
     "assets/contrast-panel.js",
     "assets/contrast-panel.css"
   ],
-  "sourceSHA256": "2262afc890086bd81c05464a1e68cb3c3b826775767567906a118fd584ade123",
+  "sourceSHA256": "b4b799c2ff768dc1ef144a0a9b53cdfc2714023f02e75faa0e6a06b523d8d8c2",
   "browsers": [
     {
       "name": "Chromium",
@@ -75,7 +75,7 @@
     },
     {
       "browser": "Chromium",
-      "check": "Porträttet följer presentationsrutans höjd och Mejla mig ligger direkt under Kontakt",
+      "check": "Lite om mig ligger under porträttet och Mejla mig direkt under Kontakt",
       "status": "Godkänt"
     },
     {
@@ -160,7 +160,7 @@
     },
     {
       "browser": "Firefox",
-      "check": "Porträttet följer presentationsrutans höjd och Mejla mig ligger direkt under Kontakt",
+      "check": "Lite om mig ligger under porträttet och Mejla mig direkt under Kontakt",
       "status": "Godkänt"
     },
     {

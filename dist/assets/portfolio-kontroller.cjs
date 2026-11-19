@@ -264,7 +264,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         assert(await trigger.evaluate(el => el === document.activeElement));
       }
     });
-    await check('Porträttet följer presentationsrutans höjd och Mejla mig ligger direkt under Kontakt', async page => {
+    await check('Lite om mig ligger under porträttet och Mejla mig direkt under Kontakt', async page => {
       for (const width of [958, 1193, 1440]) {
         await page.setViewportSize({ width, height: 1000 });
         await page.evaluate(() => scrollTo(0, 0));
@@ -281,11 +281,15 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         assert(Math.abs(spacing.extraBelow) < 1, 'Sidopanelen ska sluta vid mejllänken');
         const geometry = await page.locator('.hero-content').evaluate(el => {
           const image = el.querySelector('.hero-portrait img').getBoundingClientRect();
-          const text = el.querySelector('.hero-description').getBoundingClientRect();
+          const card = el.querySelector('#lite-om-mig').getBoundingClientRect();
           const identity = document.querySelector('.sidebar-identity');
-          return { difference: Math.max(Math.abs(image.top - text.top), Math.abs(image.bottom - text.bottom)), identityHeight: identity.getBoundingClientRect().height, inert: identity.inert };
+          return {
+            gap: card.top - image.bottom, aligned: Math.abs(card.left - image.left) < 1 && Math.abs(card.width - image.width) < 1,
+            imageHeight: image.height, identityHeight: identity.getBoundingClientRect().height, inert: identity.inert
+          };
         });
-        assert(geometry.difference < 1, 'Porträttets över- och nederkant ska följa textrutan');
+        assert(geometry.aligned && geometry.gap > 0 && geometry.gap <= 20, 'Det personliga kortet ska ligga direkt under porträttet');
+        assert(geometry.imageHeight > 0 && geometry.imageHeight <= 240, 'Porträttet ska hålla sin kompakta höjd');
         assert(geometry.identityHeight < 1 && geometry.inert, 'Dubblerad identitet visas i sidospalten högst upp');
         await page.locator('#site-nav a[href="#arbetsprov"]').click();
         await page.waitForFunction(() => document.querySelector('.sidebar.has-profile .sidebar-portrait img'));
