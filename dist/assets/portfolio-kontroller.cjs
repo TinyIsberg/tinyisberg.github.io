@@ -490,6 +490,11 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       assert.equal(await page.locator('.header-body').evaluate(el => el.getAnimations().length), 0);
     });
     await check('Lokala underlag, CV och länkmål finns', async page => {
+      for (const file of ['styles.css', 'assets/contrast-selection.js', 'assets/contrast-panel.js']) {
+        const version = crypto.createHash('sha256').update(fs.readFileSync(path.join(dist, file))).digest('hex').slice(0, 12);
+        const url = './' + file + '?v=' + version;
+        assert.equal(await page.locator(`head link[href="${url}"],head script[src="${url}"]`).count(), 1, 'Uppdatera filens adress i index.html till ' + url);
+      }
       const missing = await page.locator('a[href^="#"]').evaluateAll(links => links.map(link => link.hash).filter(hash => !document.getElementById(hash.slice(1))));
       assert.deepEqual(missing, []);
       const ids = await page.locator('[id]').evaluateAll(elements => elements.map(el => el.id));
