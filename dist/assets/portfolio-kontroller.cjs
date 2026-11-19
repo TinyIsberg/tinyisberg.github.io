@@ -43,7 +43,9 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       assert.equal(await page.locator('.case-card').count(), 4);
       assert.equal(await page.locator('#arbetsprov .section-heading h2').innerText(), 'Testarbete');
       assert.equal(await page.locator('#site-nav a[href="#arbetsprov"]').innerText(), 'Testarbete');
-      assert.match(await page.locator('#arbetsprov .section-heading a[href="./kontroller.html"]').innerText(), /Även den här sidan är testad/);
+      const reportLink = page.getByRole('link', { name: 'Även den här sidan är testad. Öppna testrapporten' });
+      assert.equal(await reportLink.getAttribute('href'), './kontroller.html');
+      assert((await reportLink.boundingBox()).height >= 44);
       assert.equal(await page.locator('.verification-note').count(), 0);
       assert.deepEqual(await page.locator('.case-category').allTextContents(), ['Steg 1', 'Steg 2', 'Steg 3', 'Steg 4']);
       assert.deepEqual(await page.locator('.case-card [data-case]').evaluateAll(buttons => buttons.map(button => button.dataset.case)), ['requirements', 'testcases', 'bugreport', 'release']);
@@ -255,18 +257,23 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         assert(await trigger.evaluate(el => el === document.activeElement));
       }
     });
-    await check('Profilen centreras mot textrutan och sidospaltens identitet visas först efter skrollning', async page => {
-      for (const width of [958, 1440]) {
+    await check('Porträttet följer presentationsrutans höjd och sidopanelens nederkant linjerar med båda', async page => {
+      for (const width of [958, 1193, 1440]) {
         await page.setViewportSize({ width, height: 1000 });
         await page.evaluate(() => scrollTo(0, 0));
         await page.waitForFunction(() => document.querySelector('.hero-portrait img'));
+        await page.waitForFunction(() => {
+          const panel = document.querySelector('.sidebar').getBoundingClientRect();
+          const intro = document.querySelector('.hero-description').getBoundingClientRect();
+          return Math.abs(panel.bottom - intro.bottom) < 1;
+        });
         const geometry = await page.locator('.hero-content').evaluate(el => {
-          const image = el.querySelector('.hero-portrait').getBoundingClientRect();
+          const image = el.querySelector('.hero-portrait img').getBoundingClientRect();
           const text = el.querySelector('.hero-description').getBoundingClientRect();
           const identity = document.querySelector('.sidebar-identity');
-          return { difference: Math.abs(image.top + image.height / 2 - text.top - text.height / 2), identityHeight: identity.getBoundingClientRect().height, inert: identity.inert };
+          return { difference: Math.max(Math.abs(image.top - text.top), Math.abs(image.bottom - text.bottom)), identityHeight: identity.getBoundingClientRect().height, inert: identity.inert };
         });
-        assert(geometry.difference < 1, 'Porträttet och rutan har olika mittpunkt');
+        assert(geometry.difference < 1, 'Porträttets över- och nederkant ska följa textrutan');
         assert(geometry.identityHeight < 1 && geometry.inert, 'Dubblerad identitet visas i sidospalten högst upp');
         await page.locator('#site-nav a[href="#arbetsprov"]').click();
         await page.waitForFunction(() => document.querySelector('.sidebar.has-profile .sidebar-portrait img'));
@@ -326,9 +333,8 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       const slider = page.getByRole('slider', { name: 'Textkontrast' });
       const panel = page.locator('#contrast-panel');
       await panel.waitFor({ state: 'visible' });
-      const description = page.locator('#contrast-description');
       assert.equal(await page.locator('.contrast-sample,#contrast-sample').count(), 0);
-      assert.equal(await panel.locator('.sample').innerText(), '"' + await description.innerText() + '"');
+      assert.equal(await panel.locator('.sample').innerText(), 'Här ser man texten som markeras.');
       assert.equal(await slider.getAttribute('aria-describedby'), 'contrast-description');
       assert.equal(await slider.inputValue(), '100');
       const pageRatios = () => page.evaluate(() => {

@@ -212,6 +212,10 @@ function updateViewport() {
   measureHeaderSpace();
   void placePortrait();
 }
+// Match the desktop sidebar to the introduction as its text wraps.
+new ResizeObserver(([entry]) => {
+  sidebar.style.setProperty('--intro-height', `${entry.borderBoxSize[0].blockSize}px`);
+}).observe(document.querySelector('.hero-content'));
 // The mobile header keeps its original space while its visible bar becomes smaller.
 new ResizeObserver(measureHeaderSpace).observe(headerBody);
 headerBody.addEventListener('transitionend', event => {

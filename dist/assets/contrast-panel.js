@@ -80,7 +80,7 @@ function detail(list, title, value, color) {
   row.append(textElement("dt", title), description);
   list.append(row);
 }
-function render(report) {
+function render(report, sampleLabel) {
   $("results").replaceChildren();
   $("source").hidden = report?.state !== "ready";
   $("scope").hidden = report?.state !== "ready";
@@ -95,8 +95,8 @@ function render(report) {
   for (const group of report.groups) {
     const card = document.createElement("section");
     card.className = `result ${group.status}`;
-    const sample = textElement("p", `"${group.text}"`, "sample");
-    sample.lang = group.lang ?? "";
+    const sample = textElement("p", sampleLabel ?? `"${group.text}"`, "sample");
+    sample.lang = sampleLabel ? "sv" : group.lang ?? "";
     sample.dir = "auto";
     card.append(sample);
     const manual = group.status === "manual";
@@ -222,7 +222,7 @@ const initialized = initialize();
     const report = globalThis.ContrastSelection.analyze({}, sampleRange);
     if (report.state === 'ready') report.source = 'Portfolions demo';
     const detailsOpen = host.shadowRoot.querySelector('details[open]');
-    panel.update(report);
+    panel.update(report, 'Här ser man texten som markeras.');
     if (detailsOpen) host.shadowRoot.querySelector('details')?.setAttribute('open', '');
   }
   slider.value = slider.defaultValue;
