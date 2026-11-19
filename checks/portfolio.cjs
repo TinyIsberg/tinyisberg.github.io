@@ -586,13 +586,39 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
   fs.writeFileSync(path.join(dist, 'assets/portfolio-kontroller.json'), JSON.stringify(report, null, 2));
   fs.copyFileSync(__filename, path.join(dist, 'assets/portfolio-kontroller.cjs'));
   const time = new Date(report.checkedAt).toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm', dateStyle: 'long', timeStyle: 'short' });
-  const rows = results.map(item => '<tr><td>' + escapeHTML(item.check) + '</td><td>' + escapeHTML(item.browser) + '</td><td>' + escapeHTML(item.status) + (item.detail ? '<br>' + escapeHTML(item.detail) : '') + '</td></tr>').join('\n');
-  const html = '<!doctype html><html lang="sv"><head><meta name="robots" content="noindex, nofollow, noimageindex"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Portfolions kontrollrapport – Filip Isberg</title><link rel="stylesheet" href="./styles.css"></head><body><main class="report-document"><a href="./index.html#arbetsprov">← Till portfolion</a><p class="eyebrow">Sparad automatisk körning</p><h1>Så kontrollerades den här portfolion.</h1><p>' + escapeHTML(time) + ', svensk tid.</p><p>' + escapeHTML(browsers.map(item => item.name + ' ' + item.version).join(' · ')) + '</p><p>' + escapeHTML(report.scope) + '</p><h2>Resultat per kontroll</h2><table><thead><tr><th scope="col">Kontroll</th><th scope="col">Webbläsare</th><th scope="col">Utfall</th></tr></thead><tbody>' + rows + '</tbody></table><h2>Körningen gäller dessa filer</h2><p>Sidans HTML, CSS och JavaScript, inklusive de fyra filerna för kontrastdemon. Resultatet är en sparad körning, inte en livekontroll vid varje besök.</p><pre>SHA256: ' + report.sourceSHA256 + '</pre><p><a href="./assets/portfolio-kontroller.json">Läs kördata</a> · <a href="./assets/portfolio-kontroller.cjs" download>Hämta kontrollkoden</a></p><p>Kontrollerna är framtagna och körda med AI-stöd under arbetet med portfolion.</p></main></body></html>';
+  const styleVersion = crypto.createHash('sha256').update(fs.readFileSync(path.join(dist, 'styles.css'))).digest('hex').slice(0, 12);
+  const rows = results.map(item => '<tr role="row"><th scope="row" role="rowheader">' + escapeHTML(item.check) + '</th><td role="cell">' + escapeHTML(item.browser) + '</td><td role="cell">' + escapeHTML(item.status) + (item.detail ? '<br>' + escapeHTML(item.detail) : '') + '</td></tr>').join('\n');
+  const html = '<!doctype html><html lang="sv"><head><meta name="robots" content="noindex, nofollow, noimageindex"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Portfolions kontrollrapport – Filip Isberg</title><link rel="stylesheet" href="./styles.css?v=' + styleVersion + '"></head><body><main class="report-document"><a href="./index.html#arbetsprov">← Till portfolion</a><p class="eyebrow">Sparad automatisk körning</p><h1>Så kontrollerades den här portfolion.</h1><p>' + escapeHTML(time) + ', svensk tid.</p><p>' + escapeHTML(browsers.map(item => item.name + ' ' + item.version).join(' · ')) + '</p><p>' + escapeHTML(report.scope) + '</p><h2 id="resultat">Resultat per kontroll</h2><table role="table" aria-labelledby="resultat"><thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Kontroll</th><th scope="col" role="columnheader">Webbläsare</th><th scope="col" role="columnheader">Utfall</th></tr></thead><tbody role="rowgroup">' + rows + '</tbody></table><h2>Körningen gäller dessa filer</h2><p>Sidans HTML, CSS och JavaScript, inklusive de fyra filerna för kontrastdemon. Resultatet är en sparad körning, inte en livekontroll vid varje besök.</p><pre>SHA256: ' + report.sourceSHA256 + '</pre><p><a href="./assets/portfolio-kontroller.json">Läs kördata</a> · <a href="./assets/portfolio-kontroller.cjs" download>Hämta kontrollkoden</a></p><p>Kontrollerna är framtagna och körda med AI-stöd under arbetet med portfolion.</p></main></body></html>';
   fs.writeFileSync(path.join(dist, 'kontroller.html'), html);
   const requestBrowser = await chromium.launch({ headless: true });
   const page = await requestBrowser.newPage();
-  const response = await page.request.get(new URL('kontroller.html', base).href);
+  const response = await page.goto(new URL('kontroller.html', base).href);
   assert(response.ok(), 'Den genererade kontrollrapporten kan inte öppnas');
+  const table = page.getByRole('table', { name: 'Resultat per kontroll' });
+  for (const width of [320, 471, 1024]) {
+    await page.setViewportSize({ width, height: 900 });
+    assert.equal(await table.getByRole('rowheader').count(), results.length);
+    assert.equal(await table.getByRole('columnheader').count(), 3);
+    const row = table.locator('tbody tr').first();
+    const title = await row.getByRole('rowheader').boundingBox();
+    const [browserCell, statusCell] = await row.getByRole('cell').all();
+    const browser = await browserCell.boundingBox();
+    const status = await statusCell.boundingBox();
+    if (width <= 600) {
+      assert(browser.y >= title.y + title.height && Math.abs(browser.y - status.y) < 1);
+      assert(status.x + status.width <= width);
+      for (const cell of [browserCell, statusCell]) {
+        assert.equal(await cell.evaluate(el => {
+          const range = document.createRange();
+          range.selectNode(el.firstChild);
+          return range.getClientRects().length;
+        }), 1, 'Webbläsare och utfall ska kunna läsas som hela ord');
+      }
+    } else {
+      assert.equal(title.y, browser.y);
+      assert.equal(browser.y, status.y);
+    }
+  }
   await requestBrowser.close();
   console.log(JSON.stringify({ passed: report.passed, failed: report.failed, browsers, sourceSHA256: report.sourceSHA256, failures: results.filter(item => item.status !== 'Godkänt') }));
   process.exitCode = report.failed ? 1 : 0;
