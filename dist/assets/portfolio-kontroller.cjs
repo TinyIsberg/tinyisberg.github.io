@@ -49,7 +49,8 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       assert.equal(await page.locator('.verification-note').count(), 0);
       assert.deepEqual(await page.locator('.case-category').allTextContents(), ['Steg 1', 'Steg 2', 'Steg 3', 'Steg 4']);
       assert.deepEqual(await page.locator('.case-card [data-case]').evaluateAll(buttons => buttons.map(button => button.dataset.case)), ['requirements', 'testcases', 'bugreport', 'release']);
-      assert(!await page.locator('#profil').innerText().then(text => /Playwright|Obsidian|arbetsprov/i.test(text)));
+      assert(!await page.locator('.hero-content').innerText().then(text => /Playwright|Obsidian|arbetsprov/i.test(text)));
+      assert.equal(await page.locator('#profil > .hero-content + #verktyg dt').count(), 6);
       assert.equal(await page.locator('.extra-project').count(), 2);
       for (const project of await page.locator('.extra-project').all()) assert(await project.isVisible());
       assert.equal(await page.locator('.extra-projects details,.extra-projects button').count(), 0);
@@ -99,6 +100,12 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       await page.waitForFunction(() => document.querySelector('.sidebar-portrait img'));
       const sidebar = await page.locator('.sidebar').boundingBox();
       assert(sidebar.y >= 0 && sidebar.y + sidebar.height <= 568, 'Sidospalten lämnar skärmen');
+      assert(await page.locator('.sidebar').evaluate(el => el.scrollHeight === el.clientHeight && getComputedStyle(el).overflowY === 'visible'), 'Sidospalten har egen skrollning');
+      await page.setViewportSize({ width: 1024, height: 450 });
+      const contact = page.locator('.sidebar-contact');
+      await contact.scrollIntoViewIfNeeded();
+      const contactBox = await contact.boundingBox();
+      assert(contactBox.y >= 0 && contactBox.y + contactBox.height <= 450, 'Sidans skrollning når inte kontaktlänken i ett lågt fönster');
     });
     await check('Porträttet tonas ut och in åt båda håll och klarar avbruten skrollning', async page => {
       await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -345,6 +352,20 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
           return ContrastSelection.analyze({}, range).groups[0].ratio;
         });
       });
+      const textAlphas = () => page.evaluate(() => {
+        const panel = document.querySelector('#contrast-panel').shadowRoot;
+        const elements = [...document.querySelectorAll('.layout *, dialog *'), ...panel.querySelectorAll('*')];
+        const colors = new Set(elements.filter(el => [...el.childNodes].some(node =>
+          node.nodeType === Node.TEXT_NODE && /[\p{L}\p{N}]/u.test(node.textContent)
+        )).map(el => getComputedStyle(el).color));
+        const ctx = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+        return [...new Set([...colors].map(color => {
+          ctx.clearRect(0, 0, 1, 1);
+          ctx.fillStyle = color;
+          ctx.fillRect(0, 0, 1, 1);
+          return ctx.getImageData(0, 0, 1, 1).data[3];
+        }))];
+      });
       const interfaceColors = () => page.evaluate(() => {
         const style = selector => getComputedStyle(document.querySelector(selector));
         const primary = style('.button.primary');
@@ -368,17 +389,21 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         assert(await slider.evaluate(el => el.matches(':focus-visible')));
         const surfaces = await interfaceColors();
         const high = await pageRatios();
+        assert.deepEqual(await textAlphas(), [255]);
+        assert(high.every(value => value >= 4.5));
         await slider.press('Home');
         assert.equal(await slider.inputValue(), '0');
         const low = await pageRatios();
         assert.deepEqual(await interfaceColors(), surfaces);
-        assert(low.every((value, i) => value >= 4.5 && value < high[i]), 'Sidans textkontrast i ' + colorScheme + ': ' + JSON.stringify({ low, high }));
+        assert.deepEqual(await textAlphas(), [102]);
+        assert(low.every((value, i) => value < high[i]), 'Sidans textkontrast i ' + colorScheme + ': ' + JSON.stringify({ low, high }));
         assert.equal(await panel.locator('.ratio').innerText(), expectedLow);
         assert.equal(await panel.locator('.outcome.fail').count(), 2);
         await slider.press('ArrowRight');
         assert.equal(await slider.inputValue(), '1');
         assert.notEqual(await panel.locator('.ratio').innerText(), expectedLow);
         await slider.fill('34');
+        assert.deepEqual(await textAlphas(), [154]);
         assert.deepEqual(await interfaceColors(), surfaces);
         assert.equal(await panel.locator('.ratio').innerText(), light ? 'Contrast: 3.91:1' : 'Contrast: 5.75:1');
         assert.equal(await panel.locator('.outcome.fail').count(), light ? 2 : 1);
