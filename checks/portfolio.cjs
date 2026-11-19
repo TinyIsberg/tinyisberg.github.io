@@ -557,6 +557,12 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       assert.equal(await page.locator('.header-body').evaluate(el => el.getAnimations().length), 0);
     });
     await check('Lokala underlag, CV och länkmål finns', async page => {
+      const fontLoaded = await page.evaluate(async () => {
+        const { fontFamily } = getComputedStyle(document.body);
+        const [face] = await document.fonts.load('16px "Atkinson Hyperlegible Next"', 'Återtest i Göteborg');
+        return fontFamily.startsWith('"Atkinson Hyperlegible Next"') && face?.status === 'loaded';
+      });
+      assert(fontLoaded, 'Portfolions typsnitt ska kunna laddas och användas på sidan');
       for (const file of ['styles.css', 'assets/contrast-selection.js', 'assets/contrast-panel.js']) {
         const version = crypto.createHash('sha256').update(fs.readFileSync(path.join(dist, file))).digest('hex').slice(0, 12);
         const url = './' + file + '?v=' + version;
