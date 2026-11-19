@@ -50,7 +50,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       assert.deepEqual(await page.locator('.case-category').allTextContents(), ['Steg 1', 'Steg 2', 'Steg 3', 'Steg 4']);
       assert.deepEqual(await page.locator('.case-card [data-case]').evaluateAll(buttons => buttons.map(button => button.dataset.case)), ['requirements', 'testcases', 'bugreport', 'release']);
       assert(!await page.locator('.hero-content').innerText().then(text => /Playwright|Obsidian|arbetsprov/i.test(text)));
-      assert.equal(await page.locator('#profil > .hero-content + #verktyg dt').count(), 6);
+      assert.equal(await page.locator('#profil > .hero-content + #verktyg dt').count(), 7);
       assert.equal(await page.locator('.extra-project').count(), 2);
       for (const project of await page.locator('.extra-project').all()) assert(await project.isVisible());
       assert.equal(await page.locator('.extra-projects details,.extra-projects button').count(), 0);
@@ -264,16 +264,21 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         assert(await trigger.evaluate(el => el === document.activeElement));
       }
     });
-    await check('Porträttet följer presentationsrutans höjd och sidopanelens nederkant linjerar med båda', async page => {
+    await check('Porträttet följer presentationsrutans höjd och Mejla mig ligger direkt under Kontakt', async page => {
       for (const width of [958, 1193, 1440]) {
         await page.setViewportSize({ width, height: 1000 });
         await page.evaluate(() => scrollTo(0, 0));
         await page.waitForFunction(() => document.querySelector('.hero-portrait img'));
-        await page.waitForFunction(() => {
-          const panel = document.querySelector('.sidebar').getBoundingClientRect();
-          const intro = document.querySelector('.hero-description').getBoundingClientRect();
-          return Math.abs(panel.bottom - intro.bottom) < 1;
+        const spacing = await page.locator('.sidebar').evaluate(panel => {
+          const contact = panel.querySelector('a[href="#kontakt"]').getBoundingClientRect();
+          const mail = panel.querySelector('.sidebar-contact').getBoundingClientRect();
+          return {
+            gap: mail.top - contact.bottom,
+            extraBelow: panel.getBoundingClientRect().bottom - mail.bottom - parseFloat(getComputedStyle(panel).paddingBottom)
+          };
         });
+        assert(spacing.gap >= 0 && spacing.gap <= 4, 'Mejllänken ska följa direkt efter Kontakt');
+        assert(Math.abs(spacing.extraBelow) < 1, 'Sidopanelen ska sluta vid mejllänken');
         const geometry = await page.locator('.hero-content').evaluate(el => {
           const image = el.querySelector('.hero-portrait img').getBoundingClientRect();
           const text = el.querySelector('.hero-description').getBoundingClientRect();

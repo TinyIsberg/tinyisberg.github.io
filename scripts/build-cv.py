@@ -126,7 +126,7 @@ for group in [
     "<b>Programmering</b> · Java, Python, Go (Golang), HTML och JavaScript",
     "<b>Utvecklingsmiljöer</b> · VS Code, PyCharm, IntelliJ IDEA och Zed",
     "<b>Versionshantering och byggmiljöer</b> · Git, GitHub, Docker, Jenkins och CI/CD-pipelines",
-    "<b>Övrig teknik</b> · Windows, olika Linuxdistributioner, hemmaserver med TrueNAS och QNAP samt CAD och 3D-utskrift",
+    "<b>Övrig teknik</b> · Windows, olika Linuxdistributioner, hemmaserver med TrueNAS och QNAP samt 3D-utskrift",
 ]:
     y = paragraph(group, main_x, y, main_w, gap=3)
 
