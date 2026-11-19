@@ -33,13 +33,12 @@ const caseData = {
     ]
   },
   release: {
-    category: 'Sportson / Återtest och lansering',
-    title: 'Återtest och lansering',
-    lead: 'Jag återtestade huvudmenyn efter utvecklarens rättning. Resultatet blev godkänt och webbplatsen ligger nu i produktion.',
+    category: 'Sportson / Återtest och resultat',
+    title: 'Återtest och resultat',
+    lead: 'Jag återtestade huvudmenyn efter utvecklarens rättning. Resultatet blev godkänt.',
     sections: [
       ['Återtestet', 'Jag använde huvudmenyn med tangentbord igen och kontrollerade kravet på synligt fokus. Fokusmarkeringen syntes nu på menyvalen och återtestet blev godkänt.'],
-      ['Från krav till resultat', 'Samma krav följde med från planeringen till testfallet, buggrapporten och återtestet. På så sätt kunde jag följa upp att det rapporterade felet var löst.'],
-      ['Lanseringen', 'Webbplatsen är lanserad och ligger i produktion.']
+      ['Från krav till resultat', 'Samma krav följde med från planeringen till testfallet, buggrapporten och återtestet. På så sätt kunde jag följa upp att det rapporterade felet var löst.']
     ]
   }
 };

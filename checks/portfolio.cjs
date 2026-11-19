@@ -31,7 +31,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         results.push({ browser: name, check: label, status: 'Avviker', detail: error.message.slice(0, 500) });
       } finally { await page.close(); }
     }
-    await check('Tydlig profil och fyra steg från krav till lansering', async page => {
+    await check('Tydlig profil och fyra steg från krav till återtest', async page => {
       assert.equal(await page.locator('h1').count(), 1);
       assert.equal(await page.locator('.hero-kicker,.overview-grid').count(), 0);
       assert(await page.locator('.hero-portrait img').isVisible(), 'Porträttet saknas');
