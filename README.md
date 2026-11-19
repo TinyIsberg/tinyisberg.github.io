@@ -10,7 +10,7 @@ Detta repository är originalet för fortsatta ändringar. Webbplatsen består a
 - `dist/app.js`: projektdialogernas texter och sidans interaktioner.
 - `dist/styles.css`: utseende och responsiv layout.
 - `dist/assets/`: porträtt, PDF-CV och testunderlag.
-- `scripts/build-cv.py`: PDF-generator, som använder ReportLab och Fontconfig.
+- `scripts/build-cv.py`: PDF-generator som använder ReportLab och typsnitten i `scripts/fonts/`.
 
 Rubriker som visas både på ett kort och i en dialog finns i både `index.html` och `app.js`.
 

@@ -1,6 +1,5 @@
 """Generate the one-page CV; fail if either text column exceeds its space."""
 from pathlib import Path
-import subprocess
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
@@ -12,9 +11,9 @@ from reportlab.platypus import Paragraph
 
 root = Path(__file__).resolve().parents[1]
 target = root / "dist/assets/Filip-Isberg-CV.pdf"
-for name, query in [("CV", "DejaVu Sans"), ("CVBold", "DejaVu Sans:style=Bold")]:
-    font = subprocess.check_output(["fc-match", "-f", "%{file}", query], text=True)
-    pdfmetrics.registerFont(TTFont(name, font))
+font_dir = root / "scripts/fonts"
+for name, weight in [("CV", "Regular"), ("CVBold", "Bold")]:
+    pdfmetrics.registerFont(TTFont(name, str(font_dir / f"AtkinsonHyperlegibleNext-{weight}.ttf")))
 pdfmetrics.registerFontFamily("CV", normal="CV", bold="CVBold")
 
 ink, muted, accent, soft, line = "#302B40", "#666075", "#5A4987", "#EDE8F6", "#E1DCE9"
@@ -25,7 +24,7 @@ styles = {
     "item": ParagraphStyle("item", fontName="CVBold", fontSize=10.2, leading=14, textColor=ink),
     "side": ParagraphStyle("side", fontName="CV", fontSize=9.1, leading=13, textColor=ink),
 }
-c = canvas.Canvas(str(target), pagesize=A4)
+c = canvas.Canvas(str(target), pagesize=A4, initialFontName="CV")
 c.setTitle("Filip Isberg - Mjukvarutestare")
 c.setAuthor("Filip Isberg")
 c.setSubject("CV: manuell testning, testautomation och tillgänglighet")

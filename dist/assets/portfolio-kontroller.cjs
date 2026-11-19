@@ -424,7 +424,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         assert.equal(await panel.locator('.outcome.fail').count(), light ? 2 : 1);
         if (!await panel.locator('dl').isVisible()) await panel.locator('summary').click();
         assert.match(await panel.locator('dl').innerText(), light ? /#827F8C/ : /#9E9AA6/);
-        assert.match(await panel.locator('dl').innerText(), /14 px · regular text/);
+        assert.match(await panel.locator('dl').innerText(), /16 px · regular text/);
         await slider.press('End');
         assert.equal(await panel.locator('.outcome.pass').count(), 1);
         assert(await panel.locator('dl').isVisible());
@@ -466,6 +466,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
             return box.left >= 0 && box.right <= document.documentElement.clientWidth;
           })), 'Alla fyra kort syns inte utan sidoskrollning vid bredden ' + width);
         }
+        assert(await page.locator('.case-title').evaluateAll(titles => titles.every(el => el.scrollWidth <= el.clientWidth + 1)), 'Kortrubriken ryms inte vid bredden ' + width);
         assert(await page.locator('.case-card button').evaluateAll(buttons => buttons.every(button => {
           const box = button.getBoundingClientRect();
           return box.width >= 44 && box.height >= 44;
