@@ -31,7 +31,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         results.push({ browser: name, check: label, status: 'Avviker', detail: error.message.slice(0, 500) });
       } finally { await page.close(); }
     }
-    await check('Tydlig profil och fyra exempel på testarbete', async page => {
+    await check('Tydlig profil och fyra steg från krav till lansering', async page => {
       assert.equal(await page.locator('h1').count(), 1);
       assert.equal(await page.locator('.hero-kicker,.overview-grid').count(), 0);
       assert(await page.locator('.hero-portrait img').isVisible(), 'Porträttet saknas');
@@ -43,10 +43,10 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       assert.equal(await page.locator('.case-card').count(), 4);
       assert.equal(await page.locator('#arbetsprov .section-heading h2').innerText(), 'Testarbete');
       assert.equal(await page.locator('#site-nav a[href="#arbetsprov"]').innerText(), 'Testarbete');
-      assert.match(await page.locator('.case-card a[href="./kontroller.html"]').innerText(), /Även den här sidan är testad/);
+      assert.match(await page.locator('#arbetsprov .section-heading a[href="./kontroller.html"]').innerText(), /Även den här sidan är testad/);
       assert.equal(await page.locator('.verification-note').count(), 0);
-      assert.deepEqual(await page.locator('.case-category').allTextContents(), ['Manuell testning', 'Testautomation', 'Tillgänglighet', 'Egen webbplats']);
-      assert.deepEqual(await page.locator('.case-card [data-case]').evaluateAll(buttons => buttons.map(button => button.dataset.case)), ['portal', 'playwright', 'keyboard']);
+      assert.deepEqual(await page.locator('.case-category').allTextContents(), ['Steg 1', 'Steg 2', 'Steg 3', 'Steg 4']);
+      assert.deepEqual(await page.locator('.case-card [data-case]').evaluateAll(buttons => buttons.map(button => button.dataset.case)), ['requirements', 'testcases', 'bugreport', 'release']);
       assert(!await page.locator('#profil').innerText().then(text => /Playwright|Obsidian|arbetsprov/i.test(text)));
       assert.equal(await page.locator('.extra-project').count(), 2);
       for (const project of await page.locator('.extra-project').all()) assert(await project.isVisible());
@@ -239,11 +239,12 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       assert.equal(await page.locator('#job-role').count(), 1);
       assert.equal(await page.locator('.profile-name').evaluate(el => getComputedStyle(el).opacity), '1');
     });
-    await check('Tre LIA-exempel öppnas och Escape återställer fokus', async page => {
-      for (const key of ['portal', 'playwright', 'keyboard']) {
+    await check('Alla fyra steg öppnas och Escape återställer fokus', async page => {
+      for (const key of ['requirements', 'testcases', 'bugreport', 'release']) {
         const trigger = page.locator('[data-case="' + key + '"]').first();
         await trigger.click();
         assert(await page.locator('#case-dialog').evaluate(el => el.open));
+        assert.equal(await page.locator('#dialog-title').innerText(), (await trigger.innerText()).replace(/\s*\+\s*$/, ''));
         assert.equal(await page.locator('#case-dialog button').count(), 1);
         assert.equal(await page.locator('#dialog-note,.dialog-footer').count(), 0);
         assert(await page.locator('.dialog-block').count() >= 2);
@@ -305,7 +306,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       assert.equal(await page.locator('#job-role').count(), 1);
     });
     await check('Dialogen håller bakgrunden inaktiv och kan stängas med knapp', async page => {
-      await page.locator('[data-case="keyboard"]').click();
+      await page.locator('[data-case="bugreport"]').click();
       assert(await page.evaluate(() => {
         document.querySelector('.hero-actions a').focus();
         return document.getElementById('case-dialog').contains(document.activeElement);
@@ -313,7 +314,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       await page.locator('#dialog-close').click();
       assert(!await page.locator('#case-dialog').evaluate(el => el.open));
       await page.setViewportSize({ width: 320, height: 568 });
-      await page.locator('[data-case="keyboard"]').click();
+      await page.locator('[data-case="bugreport"]').click();
       await page.locator('#case-dialog').evaluate(el => { el.scrollTop = el.scrollHeight; });
       const close = await page.locator('#dialog-close').boundingBox();
       const modal = await page.locator('#case-dialog').boundingBox();
@@ -388,7 +389,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
           const panel = host.shadowRoot.querySelector('.panel-page');
           return panel.scrollWidth <= panel.clientWidth + 1;
         }), 'Kontrastrutan går utanför bredden ' + width);
-        await page.locator('[data-case="keyboard"]').click();
+        await page.locator('[data-case="bugreport"]').click();
         assert(await page.locator('#case-dialog').evaluate(el => el.scrollWidth <= el.clientWidth + 1), 'Dialogen går utanför bredden ' + width);
         await page.keyboard.press('Escape');
       }

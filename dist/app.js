@@ -1,40 +1,47 @@
 'use strict';
 
 const caseData = {
-  keyboard: {
-    category: 'Sportson / Tangentbordstest',
-    title: 'Kan man söka med bara tangentbordet?',
-    lead: 'Jag testade sökningen i Sportsons portal med tangentbord och följde upp hur sökpanelen skulle stängas.',
+  requirements: {
+    category: 'Sportson / Krav och prioritering',
+    title: 'Krav och prioritering',
+    lead: 'Tillgänglighet hade högst prioritet när jag planerade testningen av webbplatsen.',
     sections: [
-      ['Genomförandet', 'Jag sökte efter produkter, gick mellan träffarna och bytte resultatsida med Tab, Shift+Tab och Enter. I mobilvy på datorn kontrollerade jag även söktyperna och att tangentbordsfokus syntes.'],
-      ['Fokus efter sidbyte', 'Vid återkontrollen den 16 november 2026 bedömdes de nio huvudkontrollerna som godkända. Fokus flyttades till första produkten på den nya resultatsidan, så att det gick att fortsätta bland de nya resultaten.'],
-      ['Avstämning och återtest', 'Produktägaren bekräftade att panelen ska stängas när man tabbar förbi den, trycker Escape eller klickar utanför. Jag återtestade alla tre sätten och samtliga blev godkända.']
-    ],
-    evidence: [['Läs kontrollerna och återtestet', './assets/tangentbord-sokpanel.html']]
+      ['Kravlistan', 'Jag gick igenom kravlistan och bröt ner kraven till acceptanstester. Det gav mig en grund för vad som behövde kontrolleras när webbplatsen började ta form.'],
+      ['Avstämningen med kunden', 'Jag stämde av vilka delar som var viktigast för kunden och prioriterade testfallen utifrån det. Tillgänglighet var det högst prioriterade området.'],
+      ['Kravet på huvudmenyn', 'Besökaren ska kunna använda huvudmenyn med bara tangentbordet och tydligt se vilken länk eller knapp som har fokus.']
+    ]
   },
-  portal: {
-    category: 'Sportson / Testdesign',
-    title: 'Från kravlista till testfall',
-    lead: 'Kravet beskrev en sökresultatsida. Jag behövde först bekräfta vilket fält sökningen skulle stödja.',
+  testcases: {
+    category: 'Sportson / Testdesign och förberedelser',
+    title: 'Från krav till testfall',
+    lead: 'Jag förberedde testfall för huvudmenyn så att kravet på tangentbordsnavigation gick att kontrollera i den första versionen.',
     sections: [
-      ['Avstämningen', 'Jag stämde av kravet med produktägaren, som bekräftade att sökkravet enbart gäller produktnamn.'],
-      ['Testfallet', 'Jag valde en sökbar produkt och använde produktens namn som testdata. Jag beskrev förutsättningarna, sökningen och den förväntade träffen.'],
-      ['Genomförandet och resultatet', 'Jag körde testfallet med de valda testuppgifterna. Den förväntade produkten visades och testet blev godkänt.']
+      ['Stegen i testfallet', 'Jag skulle gå framåt genom menyn med Tab, gå tillbaka med Shift+Tab och aktivera en länk med Enter. Musen skulle inte behövas för att använda menyn.'],
+      ['Det förväntade resultatet', 'Fokusmarkeringen skulle synas vid varje menyval, så att besökaren kunde följa var den befann sig. När en länk aktiverades skulle rätt sida öppnas.'],
+      ['Inför första versionen', 'Testfallen innehöll steg och förväntade resultat och var förberedda när den första versionen kunde testas.']
     ],
-    code: 'Genomfört testfall\n\nGivet: En sökbar produkt och dess namn är valda.\nNär: Användaren söker på namnet.\nSå: Den matchande produkten visas.'
+    code: 'Testfall: Tangentbordsnavigation i huvudmenyn\n\nGivet: Webbplatsen är öppen och musen används inte.\nNär: Jag går genom menyn med Tab och Shift+Tab och väljer en länk med Enter.\nSå: Fokusmarkeringen syns vid varje menyval och rätt sida öppnas.'
   },
-  playwright: {
-    category: 'Sportson / Testautomation',
-    title: 'När testet stoppade för tidigt',
-    lead: 'Testet skulle följa en länk från en nyhetsartikel till kalendern. Körningen avbröts vid artikelns datum.',
+  bugreport: {
+    category: 'Sportson / Testning och felrapportering',
+    title: 'Testning och buggrapport',
+    lead: 'När jag testade huvudmenyn med tangentbord försvann fokusmarkeringen på vissa menyval.',
     sections: [
-      ['Orsaken', 'Datumet på sidan innehöll ett intervall med tankstreck och årtal. Testets datumkontroll tillät bara bindestreck och datum utan årtal. Därför stoppades körningen innan kalenderlänken kontrollerades.'],
-      ['Ändringen', 'Jag felsökte datumkontrollen med AI-stöd och anpassade den för årtal samt både bindestreck och tankstreck. Övriga kontroller behölls.'],
-      ['Återtestet', 'Jag körde om de två berörda testerna i testmiljön. Båda gick igenom efter ändringen.']
-    ],
-    code: 'Visat datum: 30 sep. – 27 jan. 2027'
+      ['Avvikelsen från kravet', 'Fokusmarkeringen skulle göra det tydligt vilket menyval som var aktivt. När markeringen försvann blev det svårt att följa var man befann sig i menyn.'],
+      ['Buggrapporten', 'Jag skickade in felet som en bugg till utvecklaren, så att det kunde undersökas och rättas.'],
+      ['Rättningen', 'Utvecklaren rättade menyfelet efter min rapport. Nästa steg var att kontrollera resultatet mot samma krav igen.']
+    ]
   },
-
+  release: {
+    category: 'Sportson / Återtest och lansering',
+    title: 'Återtest och lansering',
+    lead: 'Jag återtestade huvudmenyn efter utvecklarens rättning. Resultatet blev godkänt och webbplatsen ligger nu i produktion.',
+    sections: [
+      ['Återtestet', 'Jag använde huvudmenyn med tangentbord igen och kontrollerade kravet på synligt fokus. Fokusmarkeringen syntes nu på menyvalen och återtestet blev godkänt.'],
+      ['Från krav till resultat', 'Samma krav följde med från planeringen till testfallet, buggrapporten och återtestet. På så sätt kunde jag följa upp att det rapporterade felet var löst.'],
+      ['Lanseringen', 'Webbplatsen är lanserad och ligger i produktion.']
+    ]
+  }
 };
 
 const dialog = document.getElementById('case-dialog');

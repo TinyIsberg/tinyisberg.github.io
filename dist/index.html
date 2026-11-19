@@ -70,27 +70,27 @@
       </section>
 
       <section id="arbetsprov" class="section">
-        <div class="section-heading"><h2>Testarbete</h2></div>
+        <div class="section-heading"><h2>Testarbete</h2><p><a href="./kontroller.html" target="_blank" rel="noopener">Även den här sidan är testad</a></p></div>
         <div class="case-grid">
           <article class="case-card">
-            <p class="case-category">Manuell testning</p>
-            <h3><button type="button" class="case-title" data-case="portal">Från kravlista till testfall <span aria-hidden="true">+</span></button></h3>
-            <p>Jag stämde av sökkravet med produktägaren och valde testdata. Sökning på produktnamn gav den förväntade träffen.</p>
+            <p class="case-category">Steg 1</p>
+            <h3><button type="button" class="case-title" data-case="requirements">Krav och prioritering <span aria-hidden="true">+</span></button></h3>
+            <p>Jag utgick från kravlistan och stämde av kundens prioriteringar. Tillgänglighet var viktigast, bland annat att menyn skulle gå att använda med tangentbord.</p>
           </article>
           <article class="case-card">
-            <p class="case-category">Testautomation</p>
-            <h3><button type="button" class="case-title" data-case="playwright">När testet stoppade för tidigt <span aria-hidden="true">+</span></button></h3>
-            <p>Datumkontrollen stoppade testet innan kalenderlänken hann kontrolleras. Jag anpassade kontrollen och körde om de två testerna, som då gick igenom.</p>
+            <p class="case-category">Steg 2</p>
+            <h3><button type="button" class="case-title" data-case="testcases">Från krav till testfall <span aria-hidden="true">+</span></button></h3>
+            <p>Jag tog fram testfall för huvudmenyn: gå mellan länkarna med tangentbord, se fokus och öppna rätt sida. Testfallen var förberedda inför första versionen.</p>
           </article>
           <article class="case-card">
-            <p class="case-category">Tillgänglighet</p>
-            <h3><button type="button" class="case-title" data-case="keyboard">Kan man söka med bara tangentbordet? <span aria-hidden="true">+</span></button></h3>
-            <p>Jag testade sökning och sidbyte med tangentbord. Fokus flyttades till de nya resultaten. Efter avstämning med produktägaren kontrollerade jag också att Tab, Escape och klick utanför stängde panelen.</p>
+            <p class="case-category">Steg 3</p>
+            <h3><button type="button" class="case-title" data-case="bugreport">Testning och buggrapport <span aria-hidden="true">+</span></button></h3>
+            <p>I testningen försvann fokusmarkeringen på vissa menyval. Jag skickade in felet som en bugg till utvecklaren, som sedan rättade det.</p>
           </article>
           <article class="case-card">
-            <p class="case-category">Egen webbplats</p>
-            <h3><a class="case-title" href="./kontroller.html" target="_blank" rel="noopener">Även den här sidan är testad <span aria-hidden="true">↗</span></a></h3>
-            <p>Jag kontrollerar navigation, dialoger och kontrastberäkning med tangentbord och i olika skärmbredder.</p>
+            <p class="case-category">Steg 4</p>
+            <h3><button type="button" class="case-title" data-case="release">Återtest och lansering <span aria-hidden="true">+</span></button></h3>
+            <p>Efter rättningen återtestade jag menyn med tangentbord och resultatet blev godkänt. Webbplatsen är nu lanserad och ligger i produktion.</p>
           </article>
         </div>
         <section class="extra-projects" aria-labelledby="extension-heading">
