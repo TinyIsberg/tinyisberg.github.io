@@ -7,18 +7,18 @@ const caseData = english ? {
     title: 'Choosing what to test first',
     lead: 'Accessibility was the top priority when I planned how to test the website.',
     sections: [
-      ['The requirements list', 'I broke the requirements down into acceptance tests. That gave me a starting point for what to check as the website took shape.'],
-      ['Checking priorities with the client', 'I asked the client which parts mattered most and used their answer to prioritise my test cases. Accessibility came first.'],
+      ['The requirements list', 'I broke the requirements down into acceptance tests. That gave me a list of things to check as the website took shape.'],
+      ['Checking priorities with the client', 'I asked the client what they wanted me to test first. They put accessibility at the top of the list, so I planned those tests first.'],
       ['What the main menu needed to do', 'Visitors should be able to use the main menu with just a keyboard and see which link or button has focus.']
     ]
   },
   testcases: {
     category: 'Sportson / Test design',
-    title: 'From requirement to test case',
+    title: 'Designing the keyboard test',
     lead: 'I prepared test cases for the main menu so I could check keyboard navigation as soon as the first version was ready.',
     sections: [
-      ['Test steps', 'I would move through the menu with Tab, go back with Shift+Tab and open a link with Enter. I needed to be able to do all of this using only the keyboard.'],
-      ['Expected result', 'Every menu item should show a focus indicator so visitors can see where they are. Pressing Enter should open the page for the focused link.'],
+      ['Test steps', 'My test had three steps. Use Tab to move to the next link, use Shift+Tab to go back, then press Enter to open the link with focus.'],
+      ['Expected result', 'As I moved through the menu, I expected to see which link had focus at every step. Pressing Enter should open the page that link points to.'],
       ['Ready for the first version', 'By the time the first version was available to test, I had written the steps and expected results.']
     ],
     code: 'Test case: Keyboard navigation in the main menu\n\nGiven I have opened the website and am using only the keyboard\nWhen I move through the menu with Tab and Shift+Tab and choose a link with Enter\nThen I can see which item has focus at every step, and the correct page opens.'
@@ -29,8 +29,8 @@ const caseData = english ? {
     lead: 'When I tested the main menu with a keyboard, the focus indicator disappeared on some items.',
     sections: [
       ['What went wrong', 'The focus indicator was supposed to show which menu item I was on. Without it, I could lose track of my position in the menu.'],
-      ['Reporting the bug', 'I reported the missing focus indicator to the developer so they could investigate and fix it.'],
-      ['The fix', 'The developer fixed the menu after my report. I then needed to check it against the original requirement.']
+      ['Reporting the bug', 'I reported the bug to the developer, explaining that the focus indicator disappeared as I tabbed through certain links.'],
+      ['The fix', 'After the developer fixed the bug, I went back to the original test case to check the menu again.']
     ]
   },
   release: {
@@ -38,8 +38,8 @@ const caseData = english ? {
     title: 'Retesting the fix',
     lead: 'I retested the main menu after the developer fixed it. The test passed.',
     sections: [
-      ['The retest', 'I used the menu with the keyboard again to check for visible focus. This time I could see which menu item had focus, and the retest passed.'],
-      ['What I learned', 'This bug showed me why visible focus belonged in the test case. If I had only checked that Enter opened the correct page, I could have missed that visitors sometimes had no way to see which link they were on.']
+      ['The retest', 'I tabbed through the menu again, including the links where the focus indicator had disappeared. This time it stayed visible.'],
+      ['What I learned', 'Checking that Enter opened the right page was only part of the test. I also needed to see which link I was about to open. That’s why I’m glad I included visible focus in the test case.']
     ]
   }
 } : {

@@ -1,0 +1,58 @@
+{
+  "subject": "CV: manuell testning, testautomation och tillgänglighet",
+  "phone": "079-357 18 58",
+  "portfolio_url": "https://tinyisberg.github.io/",
+  "role": "Mjukvarutestare",
+  "availability": "Tillgänglig från 1 februari 2027",
+  "school": "IT-Högskolan, Göteborg",
+  "graduation": "Examen 29 januari 2027",
+  "location_languages": "Göteborgsregionen<br/><b>Språk</b> · Svenska, norska och engelska",
+  "intro": "Just nu utbildar jag mig till mjukvarutestare på IT-Högskolan i Göteborg. Jag är inne på de sista månaderna av utbildningen och gör min praktik på Sportson. Där jobbar jag bland annat med acceptanstester, automatiserar testfall och testar manuellt. Jag har också tagit fram egna verktyg för att göra mina manuella tester mer effektiva.",
+  "career_change": "Tidigare jobbade jag som kock i både restaurangkök och storkök. Jag hade huvudansvaret på helgerna och lärde upp nyanställda. I köket hjälptes vi åt där det behövdes, oavsett vems uppgift det var. Det har jag tagit med mig, liksom vanan att vara noga med det jag lämnar ifrån mig. Jag valde att byta bana för att få jobba med IT och kvalitet, två områden jag brinner för.",
+  "testing_heading": "ERFARENHET AV TESTNING",
+  "internship": {
+    "title": "Testare (LIA) - Sportson",
+    "period": "14 september 2026 - 29 januari 2027",
+    "description": "<b>Manuell testning:</b> Tar fram acceptanstester från krav. Stämde av sökkravet med produktägaren, valde testdata och kontrollerade att sökning på produktnamn gav förväntad träff.<br/><b>Testautomation:</b> Automatiserar testfall. När en datumkontroll stoppade testet anpassade jag den med AI-stöd. Båda berörda testerna gick igenom vid omkörning.<br/><b>Tillgänglighet:</b> När jag testade huvudmenyn med tangentbord försvann fokusmarkeringen på vissa länkar. Jag rapporterade felet till utvecklaren. Efter rättningen testade jag igen och såg vilken länk jag stod på."
+  },
+  "projects_heading": "EGNA PROJEKT",
+  "project_subheading": "Firefox-tillägg för tillgänglighet",
+  "contrast_project": "<b>Text Contrast Checker</b> samlar textfärg, bakgrundsfärg och kontrastvärde för markerad text i en ruta.",
+  "zoom_project": "<b>Zoom Profiles</b> sparar zoomnivåer så att jag kan upprepa layoutkontroller med samma inställningar.",
+  "tools_heading": "VERKTYG OCH TEKNIK",
+  "personal_heading": "LITE OM MIG",
+  "personal": "På fritiden mekar jag gärna med min hemmaserver, 3D-printar och spelar tv-spel. Jag har mycket energi, gillar att samarbeta och drivs av att utforska nya saker och lära mig mer.",
+  "education_heading": "UTBILDNING",
+  "testing_course": "<b>Mjukvarutestare</b><br/>IT-Högskolan, Göteborg",
+  "course_dates": "Augusti 2025 - januari 2027<br/>Examensdatum 29 januari 2027",
+  "culinary_course": "<b>Kock och servitör</b><br/>Lörenskog Gymnasiet, Norge",
+  "culinary_dates": "2015-2019<br/>Teori och restaurangpraktik.",
+  "experience_heading": "TIDIGARE YRKESERFARENHET",
+  "hospital": {
+    "title": "Kock - Akershus Universitetssykehus",
+    "period": "Lörenskog, Norge | november 2020 - september 2024",
+    "description": "Ansvarade för att lära upp nya medarbetare. Teamledare på helger och vid behov på vardagar."
+  },
+  "restaurant": {
+    "title": "Kock - Trattoria Popolare",
+    "period": "Oslo, Norge | augusti 2017 - september 2020",
+    "description": "Samarbete i kök, lunchservering och förberedelser för kvällsservice."
+  },
+  "assistant": "<b>Köksassistent - Losby Gods Hotel</b><br/>Lörenskog, Norge | november 2015 - juli 2017",
+  "tools": [
+    "<b>Testautomation</b> · Playwright och Robot Framework",
+    "<b>Enhetstest</b> · JUnit och Mockito. JaCoCo för kodtäckning.",
+    "<b>Krav och testhantering</b> · ReQtest, Jira och Azure DevOps",
+    "<b>Programmering</b> · Java, Python, Go (Golang), HTML och JavaScript",
+    "<b>Utvecklingsmiljöer</b> · VS Code, PyCharm, IntelliJ IDEA och Zed",
+    "<b>Versionshantering och byggmiljöer</b> · Git, GitHub, Docker, Jenkins och CI/CD-pipelines",
+    "<b>Övrig teknik</b> · Windows, olika Linuxdistributioner, hemmaserver med TrueNAS och QNAP samt 3D-utskrift"
+  ],
+  "courses": [
+    "Testmetodik, kravhantering och testning i agila team.",
+    "Testautomation med Playwright och Robot Framework.",
+    "Java, enhetstestning och testdriven utveckling.",
+    "API-testning.",
+    "Embedded systems och AI: testmiljöer, CAN-kommunikation och testning av AI-system."
+  ]
+}

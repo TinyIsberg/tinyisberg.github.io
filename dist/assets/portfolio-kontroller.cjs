@@ -68,7 +68,11 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         assert.equal(await page.locator('html').getAttribute('lang'), 'en');
         assert.match(await page.title(), /Software tester/);
         assert.match(await page.locator('meta[name="robots"]').getAttribute('content'), /noindex/);
-        assert.equal(await page.locator('a[href*=".pdf"]').evaluateAll(links => links.every(link => /Swedish/.test(link.textContent))), true);
+        const cvLinks = page.getByRole('link', { name: 'View my CV (PDF)', exact: true });
+        const englishCV = 'assets/Filip-Isberg-CV-EN.pdf';
+        const pdfHash = crypto.createHash('sha256').update(fs.readFileSync(path.join(dist, englishCV))).digest('hex').slice(0, 12);
+        assert.deepEqual(await cvLinks.evaluateAll(links => links.map(link => link.getAttribute('href'))),
+          Array(2).fill('./' + englishCV + '?v=' + pdfHash));
         assert.equal(await page.locator('a[href="./checks.html"]').count(), 2);
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
         if (width === 320) {
@@ -148,7 +152,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       const contactBox = await contact.boundingBox();
       assert(contactBox.y >= 0 && contactBox.y + contactBox.height <= 450, 'Sidans skrollning når inte kontaktlänken i ett lågt fönster');
     });
-    await check('Porträttet tonas ut och in åt båda håll och klarar avbruten skrollning', 'The portrait fades in and out, including when scrolling changes direction', async page => {
+    await check('Porträttet tonas ut och in åt båda håll och klarar avbruten skrollning', 'The portrait fades in and out even if you change scroll direction mid-animation', async page => {
       await page.emulateMedia({ reducedMotion: 'no-preference' });
       const image = page.locator('img[alt="Filip Isberg"]');
       const halfway = await page.locator('.hero-portrait').evaluate(el => el.getBoundingClientRect().top + scrollY + el.offsetHeight / 2);
@@ -340,7 +344,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         assert.equal(await page.locator('.sidebar-identity').evaluate(el => el.inert), false);
       }
     });
-    await check('Jobbblocket syns under profilnamnet och följer namnet före bilden', 'The job title appears below the name and moves with it before the portrait', async page => {
+    await check('Jobbblocket syns under profilnamnet och följer namnet före bilden', 'The name and job title move into the sidebar together, followed by the portrait', async page => {
       await page.setViewportSize({ width: 1102, height: 900 });
       const role = page.locator('#job-role');
       await role.evaluate(el => { window.originalJobRole = el; });
@@ -372,7 +376,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       await page.waitForFunction(() => document.querySelector('.hero-role-slot #job-role'));
       assert.equal(await page.locator('#job-role').count(), 1);
     });
-    await check('Dialogen håller bakgrunden inaktiv och kan stängas med knapp', 'The dialog keeps the background inactive and closes with its button', async page => {
+    await check('Dialogen håller bakgrunden inaktiv och kan stängas med knapp', 'While a dialog is open, the page behind it is inactive and the Close button dismisses it', async page => {
       await page.locator('[data-case="bugreport"]').click();
       assert(await page.evaluate(() => {
         document.querySelector('.hero-actions a').focus();
@@ -622,7 +626,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       assert.deepEqual(missing, []);
       const ids = await page.locator('[id]').evaluateAll(elements => elements.map(el => el.id));
       assert.equal(ids.length, new Set(ids).size);
-      for (const file of ['assets/Filip-Isberg-CV.pdf','assets/tangentbord-sokpanel.html','assets/kontrast-testning.txt','styles.css','app.js','assets/filip-isberg.jpg','assets/favicon.svg', ...sourceFiles.filter(file => file.startsWith('assets/'))]) {
+      for (const file of ['assets/Filip-Isberg-CV.pdf','assets/Filip-Isberg-CV-EN.pdf','assets/tangentbord-sokpanel.html','assets/kontrast-testning.txt','styles.css','app.js','assets/filip-isberg.jpg','assets/favicon.svg', ...sourceFiles.filter(file => file.startsWith('assets/'))]) {
         const response = await page.request.get(new URL(file, base).href);
         assert(response.ok(), file + ' saknas');
         if (file.endsWith('.pdf')) assert((await response.body()).subarray(0, 4).toString() === '%PDF');
@@ -674,17 +678,17 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
 <body><main class="report-document">
 <nav class="report-links" aria-label="${en ? 'Report navigation' : 'Rapportmeny'}"><a href="${en ? './en.html' : './index.html'}#arbetsprov">← ${en ? 'Back to the portfolio' : 'Till portfolion'}</a>
 <a href="${en ? './kontroller.html' : './checks.html'}" hreflang="${en ? 'sv' : 'en'}" lang="${en ? 'sv' : 'en'}">${en ? 'Svenska' : 'English'}</a></nav>
-<p class="eyebrow">${en ? 'Saved test run' : 'Sparad automatisk körning'}</p>
+<p class="eyebrow">${en ? 'Automated test run' : 'Sparad automatisk körning'}</p>
 <h1>${en ? 'How I tested this portfolio' : 'Så kontrollerades den här portfolion.'}</h1>
 <p>${escapeHTML(time)}, ${en ? 'Stockholm time' : 'svensk tid'}.</p>
 <p>${escapeHTML(browsers.map(item => item.name + ' ' + item.version).join(' · '))}</p>
-<p>${en ? 'Automated checks of the portfolio’s static files at simulated screen widths. Physical devices and a full WCAG audit were outside the scope of this run.' : escapeHTML(report.scope)}</p>
+<p>${en ? 'I ran these automated checks in desktop browsers at several screen widths. The results reflect browser simulations. Testing on physical devices and a full WCAG audit were outside the scope of this run.' : escapeHTML(report.scope)}</p>
 <h2 id="resultat">${en ? 'Results by check' : 'Resultat per kontroll'}</h2>
 <table role="table" aria-labelledby="resultat"><thead role="rowgroup"><tr role="row">${headers}</tr></thead><tbody role="rowgroup">${rows}</tbody></table>
 <h2>${en ? 'Files covered by this run' : 'Körningen gäller dessa filer'}</h2>
 <p>${en ? 'The run covers both language versions, the shared styles and scripts, and the contrast demo. The results were recorded at the time shown above.' : 'Körningen omfattar båda språkversionerna, sidans CSS och JavaScript samt kontrastdemon. Resultaten sparades vid tidpunkten ovan.'}</p>
 <pre>SHA256: ${report.sourceSHA256}</pre><p><a href="./assets/portfolio-kontroller.json">${en ? 'View run data' : 'Läs kördata'}</a> · <a href="./assets/portfolio-kontroller.cjs" download>${en ? 'Download the test script' : 'Hämta kontrollkoden'}</a></p>
-<p>${en ? 'These checks were written and run with AI assistance during work on the portfolio.' : 'Kontrollerna är framtagna och körda med AI-stöd under arbetet med portfolion.'}</p></main></body></html>`;
+<p>${en ? 'I used AI assistance to write and run these checks while building the portfolio.' : 'Kontrollerna är framtagna och körda med AI-stöd under arbetet med portfolion.'}</p></main></body></html>`;
     fs.writeFileSync(path.join(dist, en ? 'checks.html' : 'kontroller.html'), html);
   }
   writeReport(false);

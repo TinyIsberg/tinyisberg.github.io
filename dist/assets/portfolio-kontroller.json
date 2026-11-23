@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-23T12:37:28.080Z",
+  "checkedAt": "2026-11-23T12:44:23.093Z",
   "scope": "Automatiska kontroller av portfolions statiska filer. Skärmbredder är simulerade; ingen fysisk mobil eller fullständig WCAG-granskning ingår.",
   "sourceFiles": [
     "index.html",
@@ -11,7 +11,7 @@
     "assets/contrast-panel.js",
     "assets/contrast-panel.css"
   ],
-  "sourceSHA256": "7798c6023d3dc66cc28ab6fcc5e325988ab2fc09db4377d2901988c0ee23c29f",
+  "sourceSHA256": "9d35ddbcdb987416e1146b138f79ec182cc0bcef5ae121e2426bbfd7ef6ad0da",
   "browsers": [
     {
       "name": "Chromium",
@@ -61,7 +61,7 @@
     {
       "browser": "Chromium",
       "check": "Porträttet tonas ut och in åt båda håll och klarar avbruten skrollning",
-      "checkEn": "The portrait fades in and out, including when scrolling changes direction",
+      "checkEn": "The portrait fades in and out even if you change scroll direction mid-animation",
       "status": "Godkänt"
     },
     {
@@ -97,13 +97,13 @@
     {
       "browser": "Chromium",
       "check": "Jobbblocket syns under profilnamnet och följer namnet före bilden",
-      "checkEn": "The job title appears below the name and moves with it before the portrait",
+      "checkEn": "The name and job title move into the sidebar together, followed by the portrait",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Dialogen håller bakgrunden inaktiv och kan stängas med knapp",
-      "checkEn": "The dialog keeps the background inactive and closes with its button",
+      "checkEn": "While a dialog is open, the page behind it is inactive and the Close button dismisses it",
       "status": "Godkänt"
     },
     {
@@ -169,7 +169,7 @@
     {
       "browser": "Firefox",
       "check": "Porträttet tonas ut och in åt båda håll och klarar avbruten skrollning",
-      "checkEn": "The portrait fades in and out, including when scrolling changes direction",
+      "checkEn": "The portrait fades in and out even if you change scroll direction mid-animation",
       "status": "Godkänt"
     },
     {
@@ -205,13 +205,13 @@
     {
       "browser": "Firefox",
       "check": "Jobbblocket syns under profilnamnet och följer namnet före bilden",
-      "checkEn": "The job title appears below the name and moves with it before the portrait",
+      "checkEn": "The name and job title move into the sidebar together, followed by the portrait",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Dialogen håller bakgrunden inaktiv och kan stängas med knapp",
-      "checkEn": "The dialog keeps the background inactive and closes with its button",
+      "checkEn": "While a dialog is open, the page behind it is inactive and the Close button dismisses it",
       "status": "Godkänt"
     },
     {

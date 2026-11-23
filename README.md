@@ -10,7 +10,7 @@ Detta repository är originalet för fortsatta ändringar. Webbplatsen består a
 - `dist/app.js`: projektdialogernas texter och sidans interaktioner.
 - `dist/styles.css`: utseende och responsiv layout.
 - `dist/assets/`: porträtt, PDF-CV och testunderlag.
-- `scripts/build-cv.py`: PDF-generator som använder ReportLab och typsnitten i `scripts/fonts/`.
+- CV-texterna finns i `scripts/cv-sv.json` och `scripts/cv-en.json`. Kör `python3 scripts/build-cv.py --lang sv` eller `--lang en` med ReportLab installerat. Uppdatera sedan PDF-länkarnas versionsvärde i motsvarande HTML till de första 12 tecknen i filens SHA-256.
 
 Rubriker som visas både på ett kort och i en dialog finns i språkversionens HTML och i `app.js`.
 
@@ -30,7 +30,7 @@ Kontrollera ändringarna, skapa en commit och pusha till `main`. Arbetsflödet i
 
 ## Sökbarhet
 
-Ägaren har valt `noindex, nofollow, noimageindex` på alla HTML-sidor. Behåll inställningen även i generatorn för kontrollrapporten. Ingen sitemap används. `robots.txt` ber sökmotorer att inte läsa CV-PDF:en.
+Ägaren har valt `noindex, nofollow, noimageindex` på alla HTML-sidor. Behåll inställningen även i generatorn för kontrollrapporten. Ingen sitemap används. `robots.txt` ber sökmotorer att inte läsa de två PDF-filerna.
 
 Detta är ingen åtkomstkontroll. Repositoryt och publicerade filer är offentliga. PDF-regeln hindrar läsning av innehållet för sökmotorer som följer den, men en PDF-adress eller innehåll i det publika repositoryt kan ändå hittas.
 

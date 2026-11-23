@@ -1,0 +1,58 @@
+{
+  "subject": "Manual testing, test automation and digital accessibility",
+  "phone": "+46 79 357 18 58",
+  "portfolio_url": "https://tinyisberg.github.io/en.html",
+  "role": "Software tester",
+  "availability": "Available from 1 February 2027",
+  "school": "IT-Högskolan, Gothenburg",
+  "graduation": "Graduation date: 29 January 2027",
+  "location_languages": "Gothenburg area<br/><b>Languages</b> · Swedish, Norwegian and English",
+  "intro": "I’m in the final months of my software testing course at IT-Högskolan in Gothenburg. During my internship at Sportson, I write acceptance tests, test the website manually and automate test cases. I’ve also built tools to speed up the manual checks I run regularly.",
+  "career_change": "Before I got into testing, I worked as a chef in restaurants and a hospital kitchen in Norway. I led the weekend shifts and trained new staff. In the kitchen, I learned to pitch in wherever I was needed and to check my work before handing it over. I still work that way. I chose software testing because I wanted to work in IT and focus on quality.",
+  "testing_heading": "SOFTWARE TESTING EXPERIENCE",
+  "internship": {
+    "title": "Software testing intern - Sportson",
+    "period": "14 September 2026 - 29 January 2027",
+    "description": "<b>Manual testing</b> · I confirmed with the product owner that search only had to support product names. I chose test data and checked that the expected product appeared.<br/><b>Test automation</b> · When a date check stopped a test early, I adjusted the check with AI assistance. Both affected tests passed on the next run.<br/><b>Accessibility</b> · As I tabbed through the main menu, the focus indicator disappeared on some links. I reported the bug to the developer. After the fix, I retested the menu and could see which link had focus."
+  },
+  "projects_heading": "PERSONAL PROJECTS",
+  "project_subheading": "Firefox extensions for accessibility testing",
+  "contrast_project": "<b>Text Contrast Checker</b> shows the text colour, background colour and contrast ratio for selected text.",
+  "zoom_project": "<b>Zoom Profiles</b> saves zoom levels so I can repeat layout checks with the same settings.",
+  "tools_heading": "TOOLS AND TECHNOLOGIES",
+  "tools": [
+    "<b>Test automation</b> · Playwright and Robot Framework",
+    "<b>Unit testing</b> · JUnit and Mockito, with JaCoCo for code coverage",
+    "<b>Requirements and test management</b> · ReQtest, Jira and Azure DevOps",
+    "<b>Programming</b> · Java, Python, Go (Golang), HTML and JavaScript",
+    "<b>Development environments</b> · VS Code, PyCharm, IntelliJ IDEA and Zed",
+    "<b>Version control and builds</b> · Git, GitHub, Docker, Jenkins and CI/CD pipelines",
+    "<b>Other technologies</b> · Windows, Linux distributions, a home server with TrueNAS and QNAP, and 3D printing"
+  ],
+  "personal_heading": "A LITTLE ABOUT ME",
+  "personal": "In my spare time, I tinker with my home server, make things with my 3D printer and play video games. I get a lot of energy from working with other people, especially when we’re learning something new together.",
+  "education_heading": "EDUCATION",
+  "testing_course": "<b>Software testing</b><br/>IT-Högskolan, Gothenburg",
+  "course_dates": "August 2025 - January 2027<br/>Graduation date: 29 January 2027",
+  "courses": [
+    "Test methods, requirements management and testing in agile teams.",
+    "Test automation with Playwright and Robot Framework.",
+    "Java, unit testing and test-driven development.",
+    "API testing.",
+    "Test environments for embedded systems and AI, CAN communication and testing AI systems."
+  ],
+  "culinary_course": "<b>Cookery and restaurant service</b><br/>Lörenskog Gymnasiet, Norway",
+  "culinary_dates": "2015-2019<br/>Coursework and restaurant placements.",
+  "experience_heading": "PREVIOUS EMPLOYMENT",
+  "hospital": {
+    "title": "Chef - Akershus Universitetssykehus",
+    "period": "Lørenskog, Norway | Nov 2020 - Sep 2024",
+    "description": "I trained new staff and led the weekend shifts. I also stepped in as team lead during the week when needed."
+  },
+  "restaurant": {
+    "title": "Chef - Trattoria Popolare",
+    "period": "Oslo, Norway | Aug 2017 - Sep 2020",
+    "description": "I worked with the kitchen team on lunch service and prepared for evening service."
+  },
+  "assistant": "<b>Kitchen assistant - Losby Gods Hotel</b><br/>Lørenskog, Norway | Nov 2015 - Jul 2017"
+}
