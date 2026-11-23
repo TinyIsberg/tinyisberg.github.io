@@ -19,7 +19,7 @@ pdfmetrics.registerFontFamily("CV", normal="CV", bold="CVBold")
 ink, muted, accent, soft, line = "#302B40", "#666075", "#5A4987", "#EDE8F6", "#E1DCE9"
 styles = {
     "intro": ParagraphStyle("intro", fontName="CV", fontSize=10.6, leading=14, textColor=ink),
-    "body": ParagraphStyle("body", fontName="CV", fontSize=9.5, leading=13.5, textColor=ink),
+    "body": ParagraphStyle("body", fontName="CV", fontSize=9.5, leading=13, textColor=ink),
     "small": ParagraphStyle("small", fontName="CV", fontSize=8.8, leading=12.6, textColor=muted),
     "item": ParagraphStyle("item", fontName="CVBold", fontSize=10.2, leading=14, textColor=ink),
     "side": ParagraphStyle("side", fontName="CV", fontSize=9.1, leading=13, textColor=ink),
@@ -92,9 +92,11 @@ intro_bottom = paragraph(
     "Jag har också tagit fram egna verktyg för att göra mina manuella tester mer effektiva.",
     38, 696, width - 76, "intro", 5)
 intro_bottom = paragraph(
-    "Tidigare i mitt yrkesliv jobbade jag som kock i restaurangkök och storkök. "
-    "Där arbetade jag både i team och självständigt. Jag hade huvudansvaret på helgerna och lärde upp nyanställda. "
-    "Jag bestämde mig för att byta bana för att få jobba med IT och kvalitet, två områden jag brinner för.",
+    "Tidigare jobbade jag som kock i både restaurangkök och storkök. "
+    "Jag hade huvudansvaret på helgerna och lärde upp nyanställda. "
+    "I köket hjälptes vi åt där det behövdes, oavsett vems uppgift det var. "
+    "Det har jag tagit med mig, liksom vanan att vara noga med det jag lämnar ifrån mig. "
+    "Jag valde att byta bana för att få jobba med IT och kvalitet, två områden jag brinner för.",
     38, intro_bottom, width - 76, "intro", 10)
 
 body_top = intro_bottom
