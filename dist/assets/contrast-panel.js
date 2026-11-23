@@ -1,6 +1,7 @@
 // Text Contrast Checker 1.2.8: original renderer with a browser-local demo bridge.
 (() => {
   const markup = document.getElementById("contrast-panel-template");
+  const pageLanguage = document.documentElement.lang;
   function mountPanel(host, settings, changed) {
     const shadow = host.attachShadow({ mode: "open" });
     const fragment = markup.content.cloneNode(true);
@@ -96,7 +97,7 @@ function render(report, sampleLabel) {
     const card = document.createElement("section");
     card.className = `result ${group.status}`;
     const sample = textElement("p", sampleLabel ?? `"${group.text}"`, "sample");
-    sample.lang = sampleLabel ? "sv" : group.lang ?? "";
+    sample.lang = sampleLabel ? pageLanguage : group.lang ?? "";
     sample.dir = "auto";
     card.append(sample);
     const manual = group.status === "manual";
@@ -220,9 +221,9 @@ const initialized = initialize();
   function update() {
     document.documentElement.style.setProperty('--contrast-level', slider.valueAsNumber / 100);
     const report = globalThis.ContrastSelection.analyze({}, sampleRange);
-    if (report.state === 'ready') report.source = 'Portfolions demo';
+    if (report.state === 'ready') report.source = pageLanguage === 'en' ? 'Portfolio demo' : 'Portfolions demo';
     const detailsOpen = host.shadowRoot.querySelector('details[open]');
-    panel.update(report, 'Här ser man texten som markeras.');
+    panel.update(report, pageLanguage === 'en' ? 'Selected text appears here.' : 'Här ser man texten som markeras.');
     if (detailsOpen) host.shadowRoot.querySelector('details')?.setAttribute('open', '');
   }
   slider.value = slider.defaultValue;

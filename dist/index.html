@@ -14,12 +14,14 @@
   <meta property="og:url" content="https://tinyisberg.github.io/">
   <meta property="og:image" content="https://tinyisberg.github.io/assets/filip-isberg.jpg">
   <link rel="canonical" href="https://tinyisberg.github.io/">
+  <link rel="alternate" hreflang="en" href="./en.html">
+  <link rel="alternate" hreflang="sv" href="./">
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./styles.css?v=cc857602db7d">
+  <link rel="stylesheet" href="./styles.css?v=2019e9f7e81a">
   <script src="./assets/contrast-math.js" defer></script>
   <script src="./assets/contrast-selection.js?v=4a36da91d6d3" defer></script>
-  <script src="./assets/contrast-panel.js?v=defe2f2505c9" defer></script>
-  <script src="./app.js?v=7fe0dd7f750e" defer></script>
+  <script src="./assets/contrast-panel.js?v=dae422f48d83" defer></script>
+  <script src="./app.js?v=83643e1be5ce" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Hoppa till innehållet</a>
@@ -33,7 +35,8 @@
       </a>
       <div class="sidebar-role-slot"></div>
       </div></div>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Öppna meny"><span class="menu-label">Öppna meny</span><span class="menu-icon" aria-hidden="true">☰</span></button>
+      <a class="language-switch" href="./en.html" hreflang="en" lang="en">English</a>
+      <button class="menu-toggle" data-open="Öppna meny" data-close="Stäng meny" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Öppna meny"><span class="menu-label">Öppna meny</span><span class="menu-icon" aria-hidden="true">☰</span></button>
       <div class="nav-panel">
       <nav id="site-nav" aria-label="Huvudnavigation">
         <a href="#profil" aria-current="location">Om mig</a>
@@ -179,7 +182,7 @@
   </dialog>
   <template id="contrast-panel-template">
     <link rel="stylesheet" href="./assets/contrast-panel.css?v=614b31be1f93">
-    <div class="panel-page">
+    <div class="panel-page" lang="en">
       <header><h3 class="panel-title">Text Contrast Checker</h3><span>WCAG 2.2</span></header>
       <div class="panel-content">
         <p id="message" role="status">Right-click selected text and choose Check Contrast.</p>

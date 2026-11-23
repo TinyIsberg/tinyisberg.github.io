@@ -1,8 +1,9 @@
 {
-  "checkedAt": "2026-11-23T08:15:30.257Z",
+  "checkedAt": "2026-11-23T12:37:28.080Z",
   "scope": "Automatiska kontroller av portfolions statiska filer. Skärmbredder är simulerade; ingen fysisk mobil eller fullständig WCAG-granskning ingår.",
   "sourceFiles": [
     "index.html",
+    "en.html",
     "styles.css",
     "app.js",
     "assets/contrast-math.js",
@@ -10,7 +11,7 @@
     "assets/contrast-panel.js",
     "assets/contrast-panel.css"
   ],
-  "sourceSHA256": "955cd8c3fa550ec31c8beb832a85e37f095902ca2d53b8692af9016bc8b8116b",
+  "sourceSHA256": "7798c6023d3dc66cc28ab6fcc5e325988ab2fc09db4377d2901988c0ee23c29f",
   "browsers": [
     {
       "name": "Chromium",
@@ -36,174 +37,220 @@
     {
       "browser": "Chromium",
       "check": "Tydlig profil och fyra steg från krav till återtest",
+      "checkEn": "Profile and four steps from requirements to retesting",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Chromium",
+      "check": "Språkbyte på dator och mobil, inklusive testfall och kontrastdemo",
+      "checkEn": "Switching languages on desktop and mobile, including case studies and the contrast demo",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Hoppa till innehållet fungerar med tangentbord",
+      "checkEn": "The skip link works with a keyboard",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Porträttet följer med till sidospalten och tillbaka utan att flytta innehållet",
+      "checkEn": "The portrait moves to the sidebar and back without shifting the content",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Porträttet tonas ut och in åt båda håll och klarar avbruten skrollning",
+      "checkEn": "The portrait fades in and out, including when scrolling changes direction",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Samma namn och jobbtext tonas ut, flyttas och återkommer tillsammans åt båda håll",
+      "checkEn": "The name and job title fade and move together in both directions",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Namn och jobbtext visas tillsammans som en grupp i sidomenyn",
+      "checkEn": "The name and job title appear together in the sidebar",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Sidomenyn dras ihop utan hopp när jobbtexten flyttas tillbaka",
+      "checkEn": "The sidebar collapses smoothly when the job title returns to the profile",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Alla fyra steg öppnas och Escape återställer fokus",
+      "checkEn": "All four steps open and Escape returns focus to the original button",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Lite om mig ligger under porträttet och Mejla mig direkt under Kontakt",
+      "checkEn": "The personal introduction sits below the portrait and the email link follows Contact",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Jobbblocket syns under profilnamnet och följer namnet före bilden",
+      "checkEn": "The job title appears below the name and moves with it before the portrait",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Dialogen håller bakgrunden inaktiv och kan stängas med knapp",
+      "checkEn": "The dialog keeps the background inactive and closes with its button",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Reglaget ändrar textkontrasten och behåller färgerna på bakgrunder, kanter och fokusmarkeringar",
+      "checkEn": "The slider changes text contrast while backgrounds, borders and focus indicators keep their colours",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Smala skärmbredder orsakar ingen horisontell klippning",
+      "checkEn": "Content fits narrow screens without horizontal clipping",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Mobilmenyn öppnas med tangentbord och stängs efter navigering",
+      "checkEn": "The mobile menu opens from the keyboard and closes after navigation",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Mobilmenyn blir kompakt med profilbild, följer toppen och behåller sidans position",
+      "checkEn": "The compact mobile header shows the portrait and stays at the top without shifting the page",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Lokala underlag, CV och länkmål finns",
+      "checkEn": "Local assets, CV and link destinations are available",
       "status": "Godkänt"
     },
     {
       "browser": "Chromium",
       "check": "Utskriftsvyn behåller innehåll och accepterad textbredd",
+      "checkEn": "The print layout retains the content and fits the page width",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Tydlig profil och fyra steg från krav till återtest",
+      "checkEn": "Profile and four steps from requirements to retesting",
+      "status": "Godkänt"
+    },
+    {
+      "browser": "Firefox",
+      "check": "Språkbyte på dator och mobil, inklusive testfall och kontrastdemo",
+      "checkEn": "Switching languages on desktop and mobile, including case studies and the contrast demo",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Hoppa till innehållet fungerar med tangentbord",
+      "checkEn": "The skip link works with a keyboard",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Porträttet följer med till sidospalten och tillbaka utan att flytta innehållet",
+      "checkEn": "The portrait moves to the sidebar and back without shifting the content",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Porträttet tonas ut och in åt båda håll och klarar avbruten skrollning",
+      "checkEn": "The portrait fades in and out, including when scrolling changes direction",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Samma namn och jobbtext tonas ut, flyttas och återkommer tillsammans åt båda håll",
+      "checkEn": "The name and job title fade and move together in both directions",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Namn och jobbtext visas tillsammans som en grupp i sidomenyn",
+      "checkEn": "The name and job title appear together in the sidebar",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Sidomenyn dras ihop utan hopp när jobbtexten flyttas tillbaka",
+      "checkEn": "The sidebar collapses smoothly when the job title returns to the profile",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Alla fyra steg öppnas och Escape återställer fokus",
+      "checkEn": "All four steps open and Escape returns focus to the original button",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Lite om mig ligger under porträttet och Mejla mig direkt under Kontakt",
+      "checkEn": "The personal introduction sits below the portrait and the email link follows Contact",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Jobbblocket syns under profilnamnet och följer namnet före bilden",
+      "checkEn": "The job title appears below the name and moves with it before the portrait",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Dialogen håller bakgrunden inaktiv och kan stängas med knapp",
+      "checkEn": "The dialog keeps the background inactive and closes with its button",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Reglaget ändrar textkontrasten och behåller färgerna på bakgrunder, kanter och fokusmarkeringar",
+      "checkEn": "The slider changes text contrast while backgrounds, borders and focus indicators keep their colours",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Smala skärmbredder orsakar ingen horisontell klippning",
+      "checkEn": "Content fits narrow screens without horizontal clipping",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Mobilmenyn öppnas med tangentbord och stängs efter navigering",
+      "checkEn": "The mobile menu opens from the keyboard and closes after navigation",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Mobilmenyn blir kompakt med profilbild, följer toppen och behåller sidans position",
+      "checkEn": "The compact mobile header shows the portrait and stays at the top without shifting the page",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Lokala underlag, CV och länkmål finns",
+      "checkEn": "Local assets, CV and link destinations are available",
       "status": "Godkänt"
     },
     {
       "browser": "Firefox",
       "check": "Utskriftsvyn behåller innehåll och accepterad textbredd",
+      "checkEn": "The print layout retains the content and fits the page width",
       "status": "Godkänt"
     }
   ],
-  "passed": 34,
+  "passed": 36,
   "failed": 0
 }

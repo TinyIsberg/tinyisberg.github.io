@@ -9,7 +9,7 @@ const base = new URL(process.argv[2] || 'http://127.0.0.1:4173/');
 const results = [];
 const browsers = [];
 const widths = [320, 390, 768, 901, 958, 1024, 1108, 1440, 1600];
-const sourceFiles = ['index.html', 'styles.css', 'app.js', 'assets/contrast-math.js', 'assets/contrast-selection.js', 'assets/contrast-panel.js', 'assets/contrast-panel.css'];
+const sourceFiles = ['index.html', 'en.html', 'styles.css', 'app.js', 'assets/contrast-math.js', 'assets/contrast-selection.js', 'assets/contrast-panel.js', 'assets/contrast-panel.css'];
 const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 
 (async () => {
@@ -17,7 +17,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
     const browser = await type.launch({ headless: true });
     browsers.push({ name, version: browser.version() });
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
-    async function check(label, test) {
+    async function check(label, checkEn, test) {
       const page = await context.newPage();
       page.setDefaultTimeout(7000);
       const errors = [];
@@ -26,12 +26,12 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         await page.goto(base.href);
         await test(page);
         assert.deepEqual(errors, []);
-        results.push({ browser: name, check: label, status: 'Godkänt' });
+        results.push({ browser: name, check: label, checkEn, status: 'Godkänt' });
       } catch (error) {
-        results.push({ browser: name, check: label, status: 'Avviker', detail: error.message.slice(0, 500) });
+        results.push({ browser: name, check: label, checkEn, status: 'Avviker', detail: error.message.slice(0, 500) });
       } finally { await page.close(); }
     }
-    await check('Tydlig profil och fyra steg från krav till återtest', async page => {
+    await check('Tydlig profil och fyra steg från krav till återtest', 'Profile and four steps from requirements to retesting', async page => {
       assert.equal(await page.locator('h1').count(), 1);
       assert.equal(await page.locator('.hero-kicker,.overview-grid').count(), 0);
       assert(await page.locator('.hero-portrait img').isVisible(), 'Porträttet saknas');
@@ -57,13 +57,54 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       assert(!await page.locator('body').innerText().then(text => text.includes('Test Impact Analyzer')));
       assert(await page.locator('img').evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0)));
     });
-    await check('Hoppa till innehållet fungerar med tangentbord', async page => {
+    await check('Språkbyte på dator och mobil, inklusive testfall och kontrastdemo', 'Switching languages on desktop and mobile, including case studies and the contrast demo', async page => {
+      for (const width of [320, 1193]) {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto(base.href);
+        const switcher = page.getByRole('link', { name: 'English', exact: true });
+        await switcher.focus();
+        await page.keyboard.press('Enter');
+        await page.waitForURL('**/en.html');
+        assert.equal(await page.locator('html').getAttribute('lang'), 'en');
+        assert.match(await page.title(), /Software tester/);
+        assert.match(await page.locator('meta[name="robots"]').getAttribute('content'), /noindex/);
+        assert.equal(await page.locator('a[href*=".pdf"]').evaluateAll(links => links.every(link => /Swedish/.test(link.textContent))), true);
+        assert.equal(await page.locator('a[href="./checks.html"]').count(), 2);
+        assert(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
+        if (width === 320) {
+          await page.getByRole('button', { name: 'Open menu' }).click();
+          assert.equal(await page.getByRole('button', { name: 'Close menu' }).getAttribute('aria-expanded'), 'true');
+        }
+        await page.getByRole('navigation').getByRole('link', { name: 'Testing in practice' }).click();
+        for (const button of await page.locator('[data-case]').all()) {
+          const title = (await button.innerText()).replace('+', '').trim();
+          await button.click();
+          const dialog = page.getByRole('dialog', { name: title });
+          assert(await dialog.getByRole('button', { name: 'Close' }).isVisible());
+          assert.match(await dialog.innerText(), /focus/i);
+          if (await button.getAttribute('data-case') === 'testcases') assert.match(await dialog.locator('pre').innerText(), /Given.*keyboard/);
+          await page.keyboard.press('Escape');
+          assert(await button.evaluate(el => document.activeElement === el));
+        }
+        const slider = page.getByRole('slider', { name: 'Text contrast' });
+        await slider.focus();
+        await page.keyboard.press('Home');
+        assert.equal(await slider.inputValue(), '0');
+        assert.equal(await page.locator('#contrast-panel .sample').innerText(), 'Selected text appears here.');
+        await page.locator('#tillganglighet').evaluate(el => el.scrollIntoView());
+        await page.getByRole('link', { name: 'Svenska' }).click();
+        await page.waitForURL('**/#tillganglighet');
+        assert.equal(await page.locator('html').getAttribute('lang'), 'sv');
+        assert(await page.getByRole('slider', { name: 'Textkontrast' }).isVisible());
+      }
+    });
+    await check('Hoppa till innehållet fungerar med tangentbord', 'The skip link works with a keyboard', async page => {
       await page.keyboard.press('Tab');
       assert(await page.locator('.skip-link').evaluate(el => el === document.activeElement));
       await page.keyboard.press('Enter');
       assert.equal(new URL(page.url()).hash, '#main');
     });
-    await check('Porträttet följer med till sidospalten och tillbaka utan att flytta innehållet', async page => {
+    await check('Porträttet följer med till sidospalten och tillbaka utan att flytta innehållet', 'The portrait moves to the sidebar and back without shifting the content', async page => {
       const hero = page.locator('.hero-portrait');
       const image = page.locator('img[alt="Filip Isberg"]');
       const initial = await hero.boundingBox();
@@ -107,7 +148,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       const contactBox = await contact.boundingBox();
       assert(contactBox.y >= 0 && contactBox.y + contactBox.height <= 450, 'Sidans skrollning når inte kontaktlänken i ett lågt fönster');
     });
-    await check('Porträttet tonas ut och in åt båda håll och klarar avbruten skrollning', async page => {
+    await check('Porträttet tonas ut och in åt båda håll och klarar avbruten skrollning', 'The portrait fades in and out, including when scrolling changes direction', async page => {
       await page.emulateMedia({ reducedMotion: 'no-preference' });
       const image = page.locator('img[alt="Filip Isberg"]');
       const halfway = await page.locator('.hero-portrait').evaluate(el => el.getBoundingClientRect().top + scrollY + el.offsetHeight / 2);
@@ -151,7 +192,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       await settled('.hero-portrait');
       assert.equal(await image.evaluate(el => el.getAnimations().length), 0);
     });
-    await check('Samma namn och jobbtext tonas ut, flyttas och återkommer tillsammans åt båda håll', async page => {
+    await check('Samma namn och jobbtext tonas ut, flyttas och återkommer tillsammans åt båda håll', 'The name and job title fade and move together in both directions', async page => {
       await page.emulateMedia({ reducedMotion: 'no-preference' });
       for (const width of [1344, 390]) {
         await page.setViewportSize({ width, height: 900 });
@@ -198,7 +239,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         await page.emulateMedia({ media: 'screen', reducedMotion: 'no-preference' });
       }
     });
-    await check('Namn och jobbtext visas tillsammans som en grupp i sidomenyn', async page => {
+    await check('Namn och jobbtext visas tillsammans som en grupp i sidomenyn', 'The name and job title appear together in the sidebar', async page => {
       await page.emulateMedia({ reducedMotion: 'no-preference' });
       for (const width of [1108, 390]) {
         await page.setViewportSize({ width, height: 900 });
@@ -225,7 +266,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         await page.waitForFunction(() => document.querySelector('.hero-role-slot #job-role') && getComputedStyle(document.querySelector('.profile-name')).opacity === '1');
       }
     });
-    await check('Sidomenyn dras ihop utan hopp när jobbtexten flyttas tillbaka', async page => {
+    await check('Sidomenyn dras ihop utan hopp när jobbtexten flyttas tillbaka', 'The sidebar collapses smoothly when the job title returns to the profile', async page => {
       await page.setViewportSize({ width: 1108, height: 900 });
       await page.emulateMedia({ reducedMotion: 'no-preference' });
       const passed = await page.locator('#profil h1').evaluate(el => el.getBoundingClientRect().top + el.getBoundingClientRect().height / 2 + scrollY + 8);
@@ -248,7 +289,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       assert.equal(await page.locator('#job-role').count(), 1);
       assert.equal(await page.locator('.profile-name').evaluate(el => getComputedStyle(el).opacity), '1');
     });
-    await check('Alla fyra steg öppnas och Escape återställer fokus', async page => {
+    await check('Alla fyra steg öppnas och Escape återställer fokus', 'All four steps open and Escape returns focus to the original button', async page => {
       for (const key of ['requirements', 'testcases', 'bugreport', 'release']) {
         const trigger = page.locator('[data-case="' + key + '"]').first();
         await trigger.click();
@@ -264,7 +305,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         assert(await trigger.evaluate(el => el === document.activeElement));
       }
     });
-    await check('Lite om mig ligger under porträttet och Mejla mig direkt under Kontakt', async page => {
+    await check('Lite om mig ligger under porträttet och Mejla mig direkt under Kontakt', 'The personal introduction sits below the portrait and the email link follows Contact', async page => {
       for (const width of [958, 1193, 1440]) {
         await page.setViewportSize({ width, height: 1000 });
         await page.evaluate(() => scrollTo(0, 0));
@@ -299,7 +340,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         assert.equal(await page.locator('.sidebar-identity').evaluate(el => el.inert), false);
       }
     });
-    await check('Jobbblocket syns under profilnamnet och följer namnet före bilden', async page => {
+    await check('Jobbblocket syns under profilnamnet och följer namnet före bilden', 'The job title appears below the name and moves with it before the portrait', async page => {
       await page.setViewportSize({ width: 1102, height: 900 });
       const role = page.locator('#job-role');
       await role.evaluate(el => { window.originalJobRole = el; });
@@ -331,7 +372,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       await page.waitForFunction(() => document.querySelector('.hero-role-slot #job-role'));
       assert.equal(await page.locator('#job-role').count(), 1);
     });
-    await check('Dialogen håller bakgrunden inaktiv och kan stängas med knapp', async page => {
+    await check('Dialogen håller bakgrunden inaktiv och kan stängas med knapp', 'The dialog keeps the background inactive and closes with its button', async page => {
       await page.locator('[data-case="bugreport"]').click();
       assert(await page.evaluate(() => {
         document.querySelector('.hero-actions a').focus();
@@ -348,7 +389,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       await page.locator('#dialog-close').click();
       assert(!await page.locator('#case-dialog').evaluate(el => el.open));
     });
-    await check('Reglaget ändrar textkontrasten och behåller färgerna på bakgrunder, kanter och fokusmarkeringar', async page => {
+    await check('Reglaget ändrar textkontrasten och behåller färgerna på bakgrunder, kanter och fokusmarkeringar', 'The slider changes text contrast while backgrounds, borders and focus indicators keep their colours', async page => {
       const slider = page.getByRole('slider', { name: 'Textkontrast' });
       const panel = page.locator('#contrast-panel');
       await panel.waitFor({ state: 'visible' });
@@ -454,7 +495,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       await panel.locator('#side-panel').uncheck();
       assert.equal(await panel.getAttribute('data-view'), 'popup');
     });
-    await check('Smala skärmbredder orsakar ingen horisontell klippning', async page => {
+    await check('Smala skärmbredder orsakar ingen horisontell klippning', 'Content fits narrow screens without horizontal clipping', async page => {
       await page.locator('#contrast-panel').waitFor({ state: 'visible' });
       for (const width of widths) {
         await page.setViewportSize({ width, height: 1000 });
@@ -486,7 +527,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         await page.keyboard.press('Escape');
       }
     });
-    await check('Mobilmenyn öppnas med tangentbord och stängs efter navigering', async page => {
+    await check('Mobilmenyn öppnas med tangentbord och stängs efter navigering', 'The mobile menu opens from the keyboard and closes after navigation', async page => {
       await page.setViewportSize({ width: 495, height: 900 });
       const toggle = page.locator('.menu-toggle');
       await toggle.focus();
@@ -503,7 +544,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
       assert.equal(new URL(page.url()).hash, '#arbetsprov');
     });
-    await check('Mobilmenyn blir kompakt med profilbild, följer toppen och behåller sidans position', async page => {
+    await check('Mobilmenyn blir kompakt med profilbild, följer toppen och behåller sidans position', 'The compact mobile header shows the portrait and stays at the top without shifting the page', async page => {
       for (const width of [320, 390, 607, 768]) {
         await page.setViewportSize({ width, height: 900 });
         await page.evaluate(() => scrollTo(0, 0));
@@ -532,6 +573,8 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         assert(Math.abs(await page.locator('#main').evaluate(el => el.getBoundingClientRect().top + scrollY) - start) < 1, 'Sidans innehåll hoppar vid komprimering');
         const scrollBeforeMenu = await page.evaluate(() => scrollY);
         await page.locator('.identity').evaluate(el => el.focus({ preventScroll: true }));
+        await page.keyboard.press('Tab');
+        assert(await page.locator('.language-switch').evaluate(el => el === document.activeElement));
         await page.keyboard.press('Tab');
         assert(await page.locator('.menu-toggle').evaluate(el => el === document.activeElement));
         await page.keyboard.press('Enter');
@@ -563,7 +606,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       await page.waitForFunction(() => document.querySelector('.hero-portrait img'));
       assert.equal(await page.locator('.header-body').evaluate(el => el.getAnimations().length), 0);
     });
-    await check('Lokala underlag, CV och länkmål finns', async page => {
+    await check('Lokala underlag, CV och länkmål finns', 'Local assets, CV and link destinations are available', async page => {
       const fontLoaded = await page.evaluate(async () => {
         const { fontFamily } = getComputedStyle(document.body);
         const [face] = await document.fonts.load('16px "Atkinson Hyperlegible Next"', 'Återtest i Göteborg');
@@ -593,7 +636,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       assert(!/arbetsprov|Obsidian/i.test(publicText));
       assert.equal((publicText.match(/Språk:/g) || []).length, 1);
     });
-    await check('Utskriftsvyn behåller innehåll och accepterad textbredd', async page => {
+    await check('Utskriftsvyn behåller innehåll och accepterad textbredd', 'The print layout retains the content and fits the page width', async page => {
       await page.emulateMedia({ media: 'print' });
       assert(await page.locator('h1').isVisible());
       assert(await page.locator('.case-card').first().isVisible());
@@ -616,11 +659,36 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
   fs.mkdirSync(path.join(dist, 'assets'), { recursive: true });
   fs.writeFileSync(path.join(dist, 'assets/portfolio-kontroller.json'), JSON.stringify(report, null, 2));
   fs.copyFileSync(__filename, path.join(dist, 'assets/portfolio-kontroller.cjs'));
-  const time = new Date(report.checkedAt).toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm', dateStyle: 'long', timeStyle: 'short' });
   const styleVersion = crypto.createHash('sha256').update(fs.readFileSync(path.join(dist, 'styles.css'))).digest('hex').slice(0, 12);
-  const rows = results.map(item => '<tr role="row"><th scope="row" role="rowheader">' + escapeHTML(item.check) + '</th><td role="cell">' + escapeHTML(item.browser) + '</td><td role="cell">' + escapeHTML(item.status) + (item.detail ? '<br>' + escapeHTML(item.detail) : '') + '</td></tr>').join('\n');
-  const html = '<!doctype html><html lang="sv"><head><meta name="robots" content="noindex, nofollow, noimageindex"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Portfolions kontrollrapport – Filip Isberg</title><link rel="stylesheet" href="./styles.css?v=' + styleVersion + '"></head><body><main class="report-document"><a href="./index.html#arbetsprov">← Till portfolion</a><p class="eyebrow">Sparad automatisk körning</p><h1>Så kontrollerades den här portfolion.</h1><p>' + escapeHTML(time) + ', svensk tid.</p><p>' + escapeHTML(browsers.map(item => item.name + ' ' + item.version).join(' · ')) + '</p><p>' + escapeHTML(report.scope) + '</p><h2 id="resultat">Resultat per kontroll</h2><table role="table" aria-labelledby="resultat"><thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Kontroll</th><th scope="col" role="columnheader">Webbläsare</th><th scope="col" role="columnheader">Utfall</th></tr></thead><tbody role="rowgroup">' + rows + '</tbody></table><h2>Körningen gäller dessa filer</h2><p>Sidans HTML, CSS och JavaScript, inklusive de fyra filerna för kontrastdemon. Resultatet är en sparad körning, inte en livekontroll vid varje besök.</p><pre>SHA256: ' + report.sourceSHA256 + '</pre><p><a href="./assets/portfolio-kontroller.json">Läs kördata</a> · <a href="./assets/portfolio-kontroller.cjs" download>Hämta kontrollkoden</a></p><p>Kontrollerna är framtagna och körda med AI-stöd under arbetet med portfolion.</p></main></body></html>';
-  fs.writeFileSync(path.join(dist, 'kontroller.html'), html);
+  function writeReport(en) {
+    const lang = en ? 'en' : 'sv';
+    const time = new Date(report.checkedAt).toLocaleString(en ? 'en-GB' : 'sv-SE', { timeZone: 'Europe/Stockholm', dateStyle: 'long', timeStyle: 'short' });
+    const rows = results.map(item => {
+      const status = en ? (item.status === 'Godkänt' ? 'Passed' : 'Failed') : item.status;
+      return `<tr role="row"><th scope="row" role="rowheader">${escapeHTML(en ? item.checkEn : item.check)}</th><td role="cell">${escapeHTML(item.browser)}</td><td role="cell">${status}${item.detail ? '<br>' + escapeHTML(item.detail) : ''}</td></tr>`;
+    }).join('\n');
+    const headers = (en ? ['Check', 'Browser', 'Result'] : ['Kontroll', 'Webbläsare', 'Utfall']).map(label => `<th scope="col" role="columnheader">${label}</th>`).join('');
+    const html = `<!doctype html><html lang="${lang}"><head>
+<meta name="robots" content="noindex, nofollow, noimageindex"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${en ? 'Portfolio test report' : 'Portfolions kontrollrapport'} – Filip Isberg</title><link rel="stylesheet" href="./styles.css?v=${styleVersion}"></head>
+<body><main class="report-document">
+<nav class="report-links" aria-label="${en ? 'Report navigation' : 'Rapportmeny'}"><a href="${en ? './en.html' : './index.html'}#arbetsprov">← ${en ? 'Back to the portfolio' : 'Till portfolion'}</a>
+<a href="${en ? './kontroller.html' : './checks.html'}" hreflang="${en ? 'sv' : 'en'}" lang="${en ? 'sv' : 'en'}">${en ? 'Svenska' : 'English'}</a></nav>
+<p class="eyebrow">${en ? 'Saved test run' : 'Sparad automatisk körning'}</p>
+<h1>${en ? 'How I tested this portfolio' : 'Så kontrollerades den här portfolion.'}</h1>
+<p>${escapeHTML(time)}, ${en ? 'Stockholm time' : 'svensk tid'}.</p>
+<p>${escapeHTML(browsers.map(item => item.name + ' ' + item.version).join(' · '))}</p>
+<p>${en ? 'Automated checks of the portfolio’s static files at simulated screen widths. Physical devices and a full WCAG audit were outside the scope of this run.' : escapeHTML(report.scope)}</p>
+<h2 id="resultat">${en ? 'Results by check' : 'Resultat per kontroll'}</h2>
+<table role="table" aria-labelledby="resultat"><thead role="rowgroup"><tr role="row">${headers}</tr></thead><tbody role="rowgroup">${rows}</tbody></table>
+<h2>${en ? 'Files covered by this run' : 'Körningen gäller dessa filer'}</h2>
+<p>${en ? 'The run covers both language versions, the shared styles and scripts, and the contrast demo. The results were recorded at the time shown above.' : 'Körningen omfattar båda språkversionerna, sidans CSS och JavaScript samt kontrastdemon. Resultaten sparades vid tidpunkten ovan.'}</p>
+<pre>SHA256: ${report.sourceSHA256}</pre><p><a href="./assets/portfolio-kontroller.json">${en ? 'View run data' : 'Läs kördata'}</a> · <a href="./assets/portfolio-kontroller.cjs" download>${en ? 'Download the test script' : 'Hämta kontrollkoden'}</a></p>
+<p>${en ? 'These checks were written and run with AI assistance during work on the portfolio.' : 'Kontrollerna är framtagna och körda med AI-stöd under arbetet med portfolion.'}</p></main></body></html>`;
+    fs.writeFileSync(path.join(dist, en ? 'checks.html' : 'kontroller.html'), html);
+  }
+  writeReport(false);
+  writeReport(true);
   const requestBrowser = await chromium.launch({ headless: true });
   const page = await requestBrowser.newPage();
   const response = await page.goto(new URL('kontroller.html', base).href);
@@ -650,6 +718,12 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
       assert.equal(browser.y, status.y);
     }
   }
+  await page.goto(new URL('checks.html', base).href);
+  assert.equal(await page.getByRole('table', { name: 'Results by check' }).getByRole('rowheader').count(), results.length);
+  assert.equal(await page.locator('html').getAttribute('lang'), 'en');
+  assert.match(await page.locator('meta[name="robots"]').getAttribute('content'), /noindex/);
+  await page.getByRole('link', { name: 'Back to the portfolio' }).click();
+  assert.equal(new URL(page.url()).pathname, new URL('en.html', base).pathname);
   await requestBrowser.close();
   console.log(JSON.stringify({ passed: report.passed, failed: report.failed, browsers, sourceSHA256: report.sourceSHA256, failures: results.filter(item => item.status !== 'Godkänt') }));
   process.exitCode = report.failed ? 1 : 0;

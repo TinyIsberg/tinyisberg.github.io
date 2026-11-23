@@ -64,6 +64,7 @@ main{min-width:0}
 .sidebar-note>.eyebrow{display:block;margin-bottom:5px;color:var(--text);font-size:0.9375rem;font-weight:400}
 .sidebar-note>.job-title{font-size:0.9375rem}
 .sidebar-contact{display:flex;align-items:center;min-height:44px;margin-top:2px;padding-inline:13px;font-size:0.9375rem}
+.language-switch{position:relative;display:inline-flex;align-items:center;min-height:44px;padding-inline:13px;font-size:.9375rem}
 .menu-toggle{display:none}
 .section{padding:32px 0}
 .section-surface{background:var(--surface);border-radius:12px;padding:20px}
@@ -163,6 +164,7 @@ dialog h2{font-size:1.875rem}
 .evidence-links{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
 .noscript-message{max-width:900px;margin:auto;padding:20px}
 .report-document{max-width:880px;margin:auto;padding:40px 25px 60px}
+.report-links{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .report-document h1{font-size:2.375rem}
 .report-document h2{font-size:1.625rem;margin:28px 0 12px}
 .report-document>p{margin:15px 0;color:var(--muted)}
@@ -214,7 +216,7 @@ html{scroll-padding-top:0}
 main>.section,main a,main button,main input,main summary{scroll-margin-top:96px}
 #profil,#main{scroll-margin-top:128px}
 .sidebar{position:sticky;top:0;z-index:10;display:block;height:var(--mobile-header-space,100px);padding:0;background:transparent;border-radius:0;pointer-events:none}
-.header-body{--header-bg:var(--surface);display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;width:100%;margin-left:0;padding:0;background:transparent;border-radius:0;pointer-events:auto;transition:width 280ms ease,margin-left 280ms ease,padding 280ms ease,border-radius 280ms ease,background-color 280ms ease,box-shadow 280ms ease}
+.header-body{--header-bg:var(--surface);display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:8px;width:100%;margin-left:0;padding:0;background:transparent;border-radius:0;pointer-events:auto;transition:width 280ms ease,margin-left 280ms ease,padding 280ms ease,border-radius 280ms ease,background-color 280ms ease,box-shadow 280ms ease}
 .sidebar-identity{transition:opacity 180ms ease-out,transform 180ms ease-out}
 .sidebar-identity:has(.sidebar-role-slot #job-role){grid-template-rows:1fr}
 .sidebar.has-profile:has(.sidebar-portrait img):has(.sidebar-role-slot #job-role):has(.identity-copy .profile-name) .sidebar-identity{opacity:1;transform:none}
@@ -224,6 +226,7 @@ main>.section,main a,main button,main input,main summary{scroll-margin-top:96px}
 .identity strong{line-height:1.4;min-height:1.4em;transition:font-size 280ms ease}
 .sidebar-portrait{flex-shrink:0;width:0;height:44px;margin:0;opacity:0;overflow:hidden;transition:width 280ms ease,margin-right 280ms ease,opacity 280ms ease}
 .sidebar-portrait img{width:34px;height:44px;border-radius:5px}
+.language-switch{padding-inline:6px}
 .menu-toggle{justify-content:center;gap:8px;min-width:44px;transition:padding 280ms ease,gap 280ms ease}
 .menu-label{display:block;max-width:100px;overflow:hidden;opacity:1;white-space:nowrap;transition:max-width 280ms ease,opacity 280ms ease}
 .menu-icon{font-size:1.25rem;line-height:1}

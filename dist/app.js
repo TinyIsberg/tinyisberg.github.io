@@ -1,6 +1,48 @@
 'use strict';
 
-const caseData = {
+const english = document.documentElement.lang === 'en';
+const caseData = english ? {
+  requirements: {
+    category: 'Sportson / Requirements and priorities',
+    title: 'Choosing what to test first',
+    lead: 'Accessibility was the top priority when I planned how to test the website.',
+    sections: [
+      ['The requirements list', 'I broke the requirements down into acceptance tests. That gave me a starting point for what to check as the website took shape.'],
+      ['Checking priorities with the client', 'I asked the client which parts mattered most and used their answer to prioritise my test cases. Accessibility came first.'],
+      ['What the main menu needed to do', 'Visitors should be able to use the main menu with just a keyboard and see which link or button has focus.']
+    ]
+  },
+  testcases: {
+    category: 'Sportson / Test design',
+    title: 'From requirement to test case',
+    lead: 'I prepared test cases for the main menu so I could check keyboard navigation as soon as the first version was ready.',
+    sections: [
+      ['Test steps', 'I would move through the menu with Tab, go back with Shift+Tab and open a link with Enter. I needed to be able to do all of this using only the keyboard.'],
+      ['Expected result', 'Every menu item should show a focus indicator so visitors can see where they are. Pressing Enter should open the page for the focused link.'],
+      ['Ready for the first version', 'By the time the first version was available to test, I had written the steps and expected results.']
+    ],
+    code: 'Test case: Keyboard navigation in the main menu\n\nGiven I have opened the website and am using only the keyboard\nWhen I move through the menu with Tab and Shift+Tab and choose a link with Enter\nThen I can see which item has focus at every step, and the correct page opens.'
+  },
+  bugreport: {
+    category: 'Sportson / Testing and reporting bugs',
+    title: 'Finding and reporting the bug',
+    lead: 'When I tested the main menu with a keyboard, the focus indicator disappeared on some items.',
+    sections: [
+      ['What went wrong', 'The focus indicator was supposed to show which menu item I was on. Without it, I could lose track of my position in the menu.'],
+      ['Reporting the bug', 'I reported the missing focus indicator to the developer so they could investigate and fix it.'],
+      ['The fix', 'The developer fixed the menu after my report. I then needed to check it against the original requirement.']
+    ]
+  },
+  release: {
+    category: 'Sportson / Retesting',
+    title: 'Retesting the fix',
+    lead: 'I retested the main menu after the developer fixed it. The test passed.',
+    sections: [
+      ['The retest', 'I used the menu with the keyboard again to check for visible focus. This time I could see which menu item had focus, and the retest passed.'],
+      ['What I learned', 'This bug showed me why visible focus belonged in the test case. If I had only checked that Enter opened the correct page, I could have missed that visitors sometimes had no way to see which link they were on.']
+    ]
+  }
+} : {
   requirements: {
     category: 'Sportson / Krav och prioritering',
     title: 'Krav och prioritering',
@@ -112,8 +154,9 @@ function setMenu(open) {
   nav.classList.toggle('is-open', open);
   sidebar.classList.toggle('menu-open', open);
   menuToggle.setAttribute('aria-expanded', String(open));
-  menuToggle.setAttribute('aria-label', open ? 'Stäng meny' : 'Öppna meny');
-  menuToggle.querySelector('.menu-label').textContent = open ? 'Stäng meny' : 'Öppna meny';
+  const label = open ? menuToggle.dataset.close : menuToggle.dataset.open;
+  menuToggle.setAttribute('aria-label', label);
+  menuToggle.querySelector('.menu-label').textContent = label;
   menuToggle.querySelector('.menu-icon').textContent = open ? '×' : '☰';
   const unavailable = !desktopLayout.matches && !open;
   nav.inert = unavailable;
@@ -122,6 +165,15 @@ function setMenu(open) {
 function closeMenu() { setMenu(false); }
 menuToggle.addEventListener('click', () => setMenu(menuToggle.getAttribute('aria-expanded') !== 'true'));
 nav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+
+// Follow the section being read, including when the visitor scrolled there manually.
+const languageSwitch = document.querySelector('.language-switch');
+languageSwitch.addEventListener('click', () => {
+  const sections = [...document.querySelectorAll('main > .section')];
+  const atBottom = scrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 2;
+  const section = atBottom ? sections.at(-1) : sections.findLast(item => item.getBoundingClientRect().top <= innerHeight / 3);
+  languageSwitch.hash = section && section !== sections[0] ? section.id : '';
+});
 
 const profileName = document.querySelector('#profil h1');
 const nameText = profileName.querySelector('.profile-name');

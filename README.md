@@ -6,13 +6,13 @@ Detta repository är originalet för fortsatta ändringar. Webbplatsen består a
 
 ## Ändra innehållet
 
-- `dist/index.html`: presentation, kontaktuppgifter och kortens texter.
+- `dist/index.html` och `dist/en.html`: presentation, kontaktuppgifter och kortens texter på svenska respektive engelska. Uppdatera båda när innehållet ändras.
 - `dist/app.js`: projektdialogernas texter och sidans interaktioner.
 - `dist/styles.css`: utseende och responsiv layout.
 - `dist/assets/`: porträtt, PDF-CV och testunderlag.
 - `scripts/build-cv.py`: PDF-generator som använder ReportLab och typsnitten i `scripts/fonts/`.
 
-Rubriker som visas både på ett kort och i en dialog finns i både `index.html` och `app.js`.
+Rubriker som visas både på ett kort och i en dialog finns i språkversionens HTML och i `app.js`.
 
 ## Förhandsvisa och kontrollera
 
@@ -22,7 +22,7 @@ npx playwright install chromium firefox
 npm run preview
 ```
 
-Öppna http://127.0.0.1:4173/. Kör `npm test` i en annan terminal medan servern är igång. Kontrollerna uppdaterar den sparade rapporten i `dist/kontroller.html` och dess underlag. De är inte en fullständig WCAG-granskning.
+Öppna http://127.0.0.1:4173/. Kör `npm test` i en annan terminal medan servern är igång. Kontrollerna uppdaterar den sparade rapporten på svenska i `dist/kontroller.html` och engelska i `dist/checks.html` samt deras gemensamma underlag. De är inte en fullständig WCAG-granskning.
 
 ## Publicera ändringar
 
