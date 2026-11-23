@@ -397,6 +397,12 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&am
         const expectedLow = light ? 'Contrast: 2.28:1' : 'Contrast: 3.33:1';
         await panel.getByText(expectedHigh, { exact: true }).waitFor();
         await page.locator('[data-case="release"]').focus();
+        for (const [name, slug] of [['Text Contrast Checker', 'text-contrast-checker'], ['Zoom Profiles', 'zoom-profiles']]) {
+          await page.keyboard.press('Tab');
+          const link = page.locator('.extra-project').getByRole('link', { name, exact: true });
+          assert(await link.evaluate(el => el.matches(':focus-visible')));
+          assert.equal(await link.getAttribute('href'), 'https://addons.mozilla.org/en-US/firefox/addon/' + slug + '/');
+        }
         await page.keyboard.press('Tab');
         assert(await slider.evaluate(el => el.matches(':focus-visible')));
         const surfaces = await interfaceColors();
